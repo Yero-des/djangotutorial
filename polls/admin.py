@@ -1,7 +1,6 @@
 from django.contrib import admin
 
-from .models import Question
+from .models import Question, Choice
 
 admin.site.register(Question)
-
-# TODO: https://docs.djangoproject.com/en/6.1/intro/tutorial03/
+admin.site.register(Choice)
