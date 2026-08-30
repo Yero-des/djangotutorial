@@ -16,8 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.views import generic
 
 urlpatterns = [
+    path('', generic.RedirectView.as_view(pattern_name='polls:index')),
     path('polls/', include('polls.urls')),
     path('admin/', admin.site.urls),
 ]
