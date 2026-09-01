@@ -9,4 +9,4 @@ urlpatterns = [
     path('<int:question_id>/vote', views.vote, name="vote")
 ]
 
-# TODO: https://docs.djangoproject.com/es/6.1/intro/tutorial05/#ideas-for-more-tests
+# TODO: https://docs.djangoproject.com/es/6.1/intro/tutorial06/

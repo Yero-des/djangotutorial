@@ -92,6 +92,28 @@ class QuestionDetailViewTests(TestCase):
         url = reverse('polls:detail', args=(question.id,))
         response = self.client.get(url)
         self.assertContains(response, question.question_text)
+        
+class QuestionResultsViewTests(TestCase):
+    
+    def test_future_question(self):
+        """
+        The results view of a question with a pub_date in the future
+        returns a 404 not found.
+        """
+        future_question = create_question(question_text="Future Question", days=1)
+        url = reverse('polls:results', args=(future_question.id,))
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 404)
+        
+    def test_past_question(self):           
+        """
+        The results view of a question with a pub_date in the past
+        displays the question's text.
+        """
+        question = create_question(question_text="Question", days=-1)
+        url = reverse('polls:results', args=(question.id,))
+        response = self.client.get(url)
+        self.assertContains(response, question.question_text)
     
 class QuestionModelTests(TestCase):
         
