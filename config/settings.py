@@ -35,6 +35,7 @@ INTERNAL_IPS = [
 # Application definition
 INSTALLED_APPS = [    
     'polls.apps.PollsConfig',
+    'playground.apps.PlaygroundConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
