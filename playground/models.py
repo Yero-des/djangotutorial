@@ -1,6 +1,16 @@
 from django.db import models
 from django.contrib import admin
 
+class Country(models.Model):
+    
+    name = models.CharField(max_length=100)
+    acronym = models.CharField(max_length=5)
+    continent = models.CharField(max_length=200)    
+    independence_date = models.DateField()
+    
+    def __str__(self):
+        return f"{self.name} {self.acronym.upper()}"
+    
 # Create your models here.
 class Person(models.Model):
     
@@ -21,8 +31,8 @@ class Person(models.Model):
     name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)
     shirt_sizes = models.CharField(max_length=1, choices=SHIRT_SIZES)
-    country = models.CharField(max_length=2, choices=COUNTRIES)
     partner = models.OneToOneField('self', on_delete=models.SET_NULL, null=True, blank=True, related_name='pareja')
+    country = models.ForeignKey(Country, on_delete=models.CASCADE, null=True, blank=True)
     
     def __str__(self):
         return f"{self.name} {self.last_name}"
@@ -36,3 +46,32 @@ class Person(models.Model):
     )
     def has_partner(self):
         return self.partner != None
+    
+    @admin.display(
+        boolean=True,
+        description="Has group?"
+    )
+    def has_group(self):
+        return self.group.exists()
+    
+class Group(models.Model):
+    name = models.CharField(max_length=100)
+    members = models.ManyToManyField(Person, through="Membership", related_name='group')
+    
+    def __str__(self):
+        return self.name
+    
+class Membership(models.Model):
+    person = models.ForeignKey(Person, on_delete=models.CASCADE)
+    group = models.ForeignKey(Group, on_delete=models.CASCADE)
+    date_joined = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['person', 'group'], name="unique_person_group"
+            )
+        ]
+        
+    def __str__(self):
+        return f'{self.person} => {self.group}'
