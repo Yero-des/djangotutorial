@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Personas</title>
+</head>
+<body>
+  
+  <h1>Lista de personas</h1>
+  <ul>
+    {% for person in person_list %}
+      <li><a href="{% url 'playground:person-detail' pk=person.id %}">{{ person }}</a></li>
+    {% endfor %}
+  </ul>
+
+  <dl>
+    <dt>Peru</dt>    
+    <dd>Un pais con una gastronomia increible</dd>
+    <dt>Argentina</dt>
+    <dd>Un pais con un gusto increible por la musica</dd>
+    <dt>Brasil</dt>
+    <dd>El pais del phonk y la balada</dd>
+  </dl>
+
+</body>
+</html>

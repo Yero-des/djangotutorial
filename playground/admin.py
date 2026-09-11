@@ -7,7 +7,7 @@ class PersonInline(admin.StackedInline):
 
 @admin.register(Person)
 class PersonAdmin(admin.ModelAdmin):
-    list_display = ('full_name', 'shirt_sizes', 'country', 'has_group', 'has_partner', 'partner')
+    list_display = ('full_name', 'date_added', 'country', 'has_group', 'has_partner', 'partner')
     fieldsets = [
         ('Nombres', {'fields': ['name', 'last_name']}),
         ('Datos adicionales', {'fields': ['shirt_sizes', 'partner', 'country']})
