@@ -1,11 +1,8 @@
-# Topics 
-## https://docs.djangoproject.com/es/6.1/topics/
+# Documentación de django
+Casos de ejemplo y pruebas en playground para ir viendo y aprendiendo sobre la documentación de django
 
-# Follow last link
-## https://docs.djangoproject.com/es/6.1/topics/db/models/#one-to-one-relationships
+## Enlaces
 
-# Tutoriales Django
-## https://docs.djangoproject.com/es/6.1/intro/reusable-apps/
-
-# What's next
-## https://docs.djangoproject.com/es/6.1/intro/whatsnext/
+* https://docs.djangoproject.com/es/6.1/topics/
+* https://docs.djangoproject.com/es/6.1/intro/reusable-apps/
+* https://docs.djangoproject.com/es/6.1/intro/whatsnext/
