@@ -1,11 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% extends "base.html" %}
+
+{% block title %}
   <title>{{person.name}}</title>
-</head>
-<body>
+{% endblock title %}
+
+{% block content %}
+  
   <h1>{{ person.name }}</h1>
   <ul>
     <li>Nombre: {{ person.name }}</li>
@@ -15,5 +15,5 @@
     <li>Pais: {{ person.country.name }}</li>
   </ul>
   <a href="{% url 'playground:person-list' %}">Volver a lista</a>
-</body>
-</html>
+
+{% endblock content %}

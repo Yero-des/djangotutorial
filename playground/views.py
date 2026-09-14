@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from django.views.generic import TemplateView, ListView, DetailView
+from django.views.generic import TemplateView, ListView, DetailView, CreateView
+from django.urls import reverse_lazy
 from .models import Person
 
 # Create your views here.
@@ -19,3 +20,9 @@ class PersonDetailView(DetailView):
     model = Person
     template_name = "playground/person_detail.html"
     context_object_name = 'person'
+    
+class PersonCreateView(CreateView):
+    model = Person
+    template_name = "playground/person_create.html"
+    fields = ['name', 'last_name']
+    success_url = reverse_lazy('playground:person-list')

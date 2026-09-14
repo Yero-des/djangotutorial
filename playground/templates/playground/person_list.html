@@ -1,11 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% extends "base.html" %}
+
+{% block title %}
   <title>Personas</title>
-</head>
-<body>
+{% endblock title %}
+
+{% block content %}
   
   <h1>Lista de personas</h1>
   <ul>
@@ -23,5 +22,6 @@
     <dd>El pais del phonk y la balada</dd>
   </dl>
 
-</body>
-</html>
+  <a href="{% url 'playground:person-create' %}">Agregar nueva persona</a>
+
+{% endblock content %}

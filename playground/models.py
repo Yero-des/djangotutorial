@@ -41,7 +41,7 @@ class Person(models.Model):
     shirt_sizes = models.CharField(max_length=1, choices=SHIRT_SIZES)
     partner = models.OneToOneField('self', on_delete=models.SET_NULL, null=True, blank=True, related_name='pareja')
     country = models.ForeignKey(Country, on_delete=models.CASCADE, null=True, blank=True)
-    date_added = models.DateTimeField(auto_now_add=True, editable=True)
+    date_added = models.DateTimeField(auto_now_add=True)
     
     class Meta:
         ordering = ['name']
