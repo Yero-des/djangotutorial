@@ -7,6 +7,9 @@
 {% block content %}
   
   <h1>Lista de personas</h1>
+
+  <h2>Fecha y hora <time datetime="{{ now | date:'c' }}">{{ now | date:'d/m/Y H:i' }}</time></h2>  
+
   <ul>
     {% for person in person_list %}
       <li><a href="{% url 'playground:person-detail' pk=person.id %}">{{ person }}</a></li>
