@@ -31,5 +31,5 @@ class PersonDetailView(DetailView):
 class PersonCreateView(CreateView):
     model = Person
     template_name = "playground/person_create.html"
-    fields = ['name', 'last_name']
+    fields = ['name', 'last_name', 'shirt_sizes', 'partner', 'country']
     success_url = reverse_lazy('playground:person-list')
