@@ -1,5 +1,33 @@
 from django.test import TestCase
-from .models import User, Follow
+from .models import User, Follow, Post, Like
+from django.forms.models import modelform_factory
+from django.db import IntegrityError
+
+def create_generic_users_influencers(users_quantity, influencers_quantity):
+    
+    users = []
+    influencers = []
+    
+    for i in range(users_quantity):
+        user = User.objects.create(username=f"user{i}", role='user')
+        users.append(user)
+        
+    for i in range(influencers_quantity):
+        influencer = User.objects.create(username=f"influencer{i}", role='staff')
+        influencers.append(influencer)
+        
+    return users, influencers
+
+def create_generic_posts(user, posts_quantity):
+    
+    posts = []
+    
+    for i in range(posts_quantity):
+        post = Post.objects.create(title=f"generic{i}", body="new post", user=user, status="active")
+        posts.append(post)
+        
+    return posts
+    
 
 # Create your tests here.
 class FollowModelTests(TestCase):
@@ -9,26 +37,80 @@ class FollowModelTests(TestCase):
         quantity_followers() return the quantity of followers you have
         with some followings
         """
-        influencer = User.objects.create(username="top", role='staff')
-        user1 = User.objects.create(username="user1", role='user')
-        user2 = User.objects.create(username="user2", role='user')
-        user3 = User.objects.create(username="user3", role='user')
-        Follow.objects.create(followed_user=influencer, following_user=user1)
-        Follow.objects.create(followed_user=influencer, following_user=user2)
-        Follow.objects.create(followed_user=influencer, following_user=user3)
-        self.assertEqual(influencer.quantity_followings, 0)
-        self.assertEqual(influencer.quantity_followers, 3)
+        users, influencers = create_generic_users_influencers(users_quantity=3, influencers_quantity=1)
+        Follow.objects.create(followed_user=influencers[0], following_user=users[0])
+        Follow.objects.create(followed_user=influencers[0], following_user=users[1])
+        Follow.objects.create(followed_user=influencers[0], following_user=users[2])
+        self.assertEqual(influencers[0].quantity_followings, 0)
+        self.assertEqual(influencers[0].quantity_followers, 3)
         
     def test_quantity_followings(self):
         """
-        quantity_followings() return the quantity of followings you have done
+        quantity_followings() return the quantity of followings you have
         """
-        user = User.objects.create(username="random", role="user")
-        influencer1 = User.objects.create(username="top1", role='staff')
-        influencer2 = User.objects.create(username="top2", role='staff')
-        influencer3 = User.objects.create(username="top3", role='staff')
-        Follow.objects.create(followed_user=influencer1, following_user=user)
-        Follow.objects.create(followed_user=influencer2, following_user=user)
-        Follow.objects.create(followed_user=influencer3, following_user=user)
-        self.assertEqual(user.quantity_followers, 0)
-        self.assertEqual(user.quantity_followings, 3)
+        users, influencers = create_generic_users_influencers(users_quantity=1, influencers_quantity=3)
+        Follow.objects.create(followed_user=influencers[0], following_user=users[0])
+        Follow.objects.create(followed_user=influencers[1], following_user=users[0])
+        Follow.objects.create(followed_user=influencers[2], following_user=users[0])
+        self.assertEqual(users[0].quantity_followers, 0)
+        self.assertEqual(users[0].quantity_followings, 3)
+        
+class LikeModelTests(TestCase):
+        
+    def test_quantity_user_likes(self):
+        """
+        quantity_user_likes() should return the quantity of likes a user did in a many posts
+        """
+        users, influencers = create_generic_users_influencers(users_quantity=1, influencers_quantity=3)
+        posts = create_generic_posts(influencers[0], posts_quantity=5)
+        
+        Like.objects.create(liked_post=posts[0], user_like=users[0], reaction="like")
+        Like.objects.create(liked_post=posts[1], user_like=users[0], reaction="love")
+        Like.objects.create(liked_post=posts[2], user_like=users[0], reaction="dislike")
+        Like.objects.create(liked_post=posts[3], user_like=users[0], reaction="love")
+        
+        Like.objects.create(liked_post=posts[0], user_like=influencers[1], reaction="like")
+        Like.objects.create(liked_post=posts[1], user_like=influencers[1], reaction="love")
+        
+        self.assertEqual(users[0].quantity_user_likes, 4)
+        self.assertEqual(influencers[1].quantity_user_likes, 2)
+        
+    def test_quantity_likes(self):
+        """
+        quantity_likes() should return the quantity of likes a post have
+        """
+        users, influencers = create_generic_users_influencers(users_quantity=1, influencers_quantity=5)
+        posts = create_generic_posts(users[0], posts_quantity=2)
+        
+        Like.objects.create(liked_post=posts[0], user_like=influencers[0], reaction="like")
+        Like.objects.create(liked_post=posts[0], user_like=influencers[1], reaction="love")
+        Like.objects.create(liked_post=posts[0], user_like=influencers[2], reaction="love")
+        Like.objects.create(liked_post=posts[0], user_like=influencers[3], reaction="love")
+        Like.objects.create(liked_post=posts[0], user_like=influencers[4], reaction="love")
+        
+        Like.objects.create(liked_post=posts[1], user_like=influencers[0], reaction="love")
+        Like.objects.create(liked_post=posts[1], user_like=influencers[1], reaction="love")
+        Like.objects.create(liked_post=posts[1], user_like=influencers[2], reaction="love")
+        
+        self.assertEqual(posts[0].quantity_likes, 5)
+        self.assertEqual(posts[1].quantity_likes, 3)
+        
+    def test_user_cannot_like_same_post_twice(self):
+        """
+        A user only can like a post only one time and no more
+        """
+        users, influencers = create_generic_users_influencers(users_quantity=1,influencers_quantity=1)
+        posts = create_generic_posts(influencers[0],posts_quantity=1)
+
+        Like.objects.create(
+            liked_post=posts[0],
+            user_like=users[0],
+            reaction="like",
+        )
+
+        with self.assertRaises(IntegrityError):
+            Like.objects.create(
+                liked_post=posts[0],
+                user_like=users[0],
+                reaction="love",
+            )
