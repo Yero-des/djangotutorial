@@ -2,14 +2,20 @@ from django.db import models
 from django.contrib import admin
 from .fields import HandField
 
-class Country(models.Model):
-    
+class CommonInfo(models.Model):
     name = models.CharField(max_length=100)
+    
+    class Meta:
+        abstract = True
+        ordering = ['name']
+
+class Country(CommonInfo):
+    
     acronym = models.CharField(max_length=5)
     continent = models.CharField(max_length=200)    
     independence_date = models.DateField()
     
-    class Meta:
+    class Meta(CommonInfo.Meta):
         verbose_name_plural = 'countries'
         
     def save(self, **kwargs):
@@ -20,7 +26,7 @@ class Country(models.Model):
     def __str__(self):
         return f"{self.name} {self.acronym.upper()}"
 
-class Person(models.Model):
+class Person(CommonInfo):
     
     SHIRT_SIZES = {
         'S': 'Small',
@@ -39,17 +45,26 @@ class Person(models.Model):
     name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)
     shirt_sizes = models.CharField(max_length=1, choices=SHIRT_SIZES)
-    partner = models.OneToOneField('self', on_delete=models.SET_NULL, null=True, blank=True, related_name='pareja')
+    partner = models.OneToOneField('self', on_delete=models.SET_NULL, null=True, blank=True)
     country = models.ForeignKey(Country, on_delete=models.CASCADE, null=True, blank=True)
-    date_added = models.DateTimeField(auto_now_add=True, editable=True)
+    date_added = models.DateTimeField(auto_now_add=True)
     
-    class Meta:
-        ordering = ['name']
+    class Meta(CommonInfo.Meta):
         verbose_name_plural = 'people'
         get_latest_by = 'date_added'
         
     def save(self, **kwargs):
-        return super().save(**kwargs)
+        super().save(**kwargs)
+    
+        if self.partner:
+            # 2. Obtener la pareja actual desde la base de datos
+            current_partner = Person.objects.get(pk=self.partner.pk)
+            
+            # 3. Si la pareja no me tiene a mí asignado, actualizarla
+            if current_partner.partner != self:
+                current_partner.partner = self
+                # Usar update_fields evita bucles infinitos al disparar de nuevo el save()
+                current_partner.save(update_fields=['partner'])
     
     def __str__(self):
         return f"{self.name} {self.last_name}"

@@ -1,19 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% extends "base.html" %}
+
+{% block title %}
   <title>{{person.name}}</title>
-</head>
-<body>
+{% endblock title %}
+
+{% block content %}
+  
   <h1>{{ person.name }}</h1>
   <ul>
     <li>Nombre: {{ person.name }}</li>
     <li>Apellido: {{ person.last_name }}</li>
-    <li>Talla polo: {{ person.shirt_sizes }}</li>
-    <li>Pareja: {{ person.partner.name }}</li>
-    <li>Pais: {{ person.country.name }}</li>
+    <li>Talla polo: {{ person.shirt_sizes|default:'Sin tallas' }}</li>
+    <li>Pareja: {{ person.partner.name|default:'Sin pareja' }}</li>
+    <li>Pais: {{ person.country.name|default:'Sin pais' }}</li>
+    <li>Fecha de creación: <time datetime="{{ person.date_added.c }}">{{ person.date_added|date:'d/m/Y H:i'}}</time></li>
   </ul>
   <a href="{% url 'playground:person-list' %}">Volver a lista</a>
-</body>
-</html>
+
+{% endblock content %}
