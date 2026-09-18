@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'facebook.apps.FacebookConfig',
     'polls.apps.PollsConfig',
     'playground.apps.PlaygroundConfig',
+    'profiles.apps.ProfilesConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -148,7 +149,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_FILES = [
+    BASE_DIR / 'static'
+]
 
+AUTH_USER_MODEL = 'profiles.User'
 
 # Email
 # https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration

@@ -1,7 +1,9 @@
 from django.test import TestCase
-from .models import User, Follow, Post, Like
-from django.forms.models import modelform_factory
+from .models import Follow, Post, Like
 from django.db import IntegrityError
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 def create_generic_users_influencers(users_quantity, influencers_quantity):
     
@@ -9,11 +11,11 @@ def create_generic_users_influencers(users_quantity, influencers_quantity):
     influencers = []
     
     for i in range(users_quantity):
-        user = User.objects.create(username=f"user{i}", role='user')
+        user = User.objects.create(username=f"user{i}")
         users.append(user)
         
     for i in range(influencers_quantity):
-        influencer = User.objects.create(username=f"influencer{i}", role='staff')
+        influencer = User.objects.create(username=f"influencer{i}")
         influencers.append(influencer)
         
     return users, influencers
