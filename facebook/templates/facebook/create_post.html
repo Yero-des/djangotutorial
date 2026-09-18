@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+  {% include './includes/header.html' with active='create-post' %}
+
+  <main class="container mt-2">
+    <h1>Crear publicación</h1>
+    <p>Puedes crear un publicacion solo si estas logueado</p>
+    
+    <form method="post">
+      {% csrf_token %}
+
+      {{ form.as_p }}
+      
+      <button class="btn btn-success" type="submit">Crear publicación</button>
+
+    </form>
+
+  </main>
+{% endblock %}

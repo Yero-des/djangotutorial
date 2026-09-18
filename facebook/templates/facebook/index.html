@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+  {% include './includes/header.html' with active='index' %}
+
+  <main class="container mt-2">
+    <h1>Publicaciones</h1>
+    <p>Las mejores publicaciones de todo internet</p>
+
+    <div class="container g-3">
+      <div class="row row-cols-3 justify-content-center align-items-center">
+        {% for post in posts %}
+          {% include './includes/post.html' with post=post %}
+        {% empty %}
+          {% comment %}Sin posts para mostrar{% endcomment %}
+          <p class="text-center">
+            Sin posts para mostrar
+          </p>
+        {% endfor %}
+      </div>
+    </div>
+  </main>
+{% endblock %}

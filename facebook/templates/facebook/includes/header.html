@@ -1,0 +1,26 @@
+{% load static %}
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+  <div class="container">
+    <a class="h-auto" href="{% url 'facebook:index' %}" style="width: 30px;"><img src="{% static 'img/logo.png' %}" class="w-100 h-100" alt="Logo principal" /></a>
+    <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+
+    <div class="collapse navbar-collapse" id="collapsibleNavId">
+      <ul class="navbar-nav me-auto mt-2 mt-lg-0">
+        <li class="nav-item">
+          <a class="nav-link {% if active == 'index' %}active{% endif %}" href="{% url 'facebook:index' %}" aria-current="page">Publicaciones</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if active == 'users' %}active{% endif %}" href="#">Usuarios</a>
+        </li>
+        {% if request.user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link {% if active == 'create-post' %}active{% endif %}" href="{% url 'facebook:create-post' %}">Crear publicación</a>
+          </li>
+        {% endif %}
+      </ul>
+      <form class="d-flex my-2 my-lg-0">
+        <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">{{ request.user }}</button>
+      </form>
+    </div>
+  </div>
+</nav>

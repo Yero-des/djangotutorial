@@ -1,5 +1,6 @@
 from django.test import TestCase
 from .models import Follow, Post, Like
+from django.urls import reverse
 from django.db import IntegrityError
 from django.contrib.auth import get_user_model
 
@@ -30,8 +31,6 @@ def create_generic_posts(user, posts_quantity):
         
     return posts
     
-
-# Create your tests here.
 class FollowModelTests(TestCase):
     
     def test_quantity_followers(self):
@@ -116,3 +115,30 @@ class LikeModelTests(TestCase):
                 user_like=users[0],
                 reaction="love",
             )
+
+class PostCreateViewTest(TestCase):
+    
+    def setUp(self):
+        self.user = User.objects.create_user(
+            username='juan',
+            password='123456'
+        )
+
+    def test_authenticated_user_can_access_create_post(self):
+        """
+        Si el usuario esta logueado podra ingresar a la vista para crear un post
+        """
+        self.client.login(
+            username='juan',
+            password='123456'
+        )
+
+        response = self.client.get(reverse('facebook:create-post'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_anonymous_user_cannot_access_create_post(self):
+        """
+        Si el usuario no esta logueado no tendra acceso para crear un post
+        """
+        response = self.client.get(reverse('facebook:create-post'))
+        self.assertEqual(response.status_code, 302)
