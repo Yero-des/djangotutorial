@@ -1,6 +1,13 @@
 # Documentación de django
 Casos de ejemplo y pruebas en playground para ir viendo y aprendiendo sobre la documentación de django
 
+## Variables de entorno
+```
+DATABASE_NAME=
+DATABASE_USER=
+DATABASE_PASSWORD=
+```
+
 ## Enlaces
 
 * https://docs.djangoproject.com/es/6.1/topics/

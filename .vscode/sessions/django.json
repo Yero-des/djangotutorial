@@ -1,0 +1,61 @@
+{
+  "version": 2,
+  "tabs": [
+    {
+      "uri": "file:///c%3A/Users/APUESTA%20TOTAL/Desktop/Curso%20Django/djangotutorial/facebook/models.py",
+      "groupIndex": 0,
+      "tabIndex": 0,
+      "viewColumn": 1,
+      "isGroupActive": true,
+      "isGlobalActive": false,
+      "cursor": {
+        "line": 28,
+        "character": 28
+      }
+    },
+    {
+      "uri": "file:///c%3A/Users/APUESTA%20TOTAL/Desktop/Curso%20Django/djangotutorial/facebook/views.py",
+      "groupIndex": 1,
+      "tabIndex": 0,
+      "viewColumn": 2,
+      "isGroupActive": true,
+      "isGlobalActive": false,
+      "cursor": {
+        "line": 1,
+        "character": 0
+      }
+    },
+    {
+      "uri": "file:///c%3A/Users/APUESTA%20TOTAL/Desktop/Curso%20Django/djangotutorial/facebook/urls.py",
+      "groupIndex": 2,
+      "tabIndex": 0,
+      "viewColumn": 3,
+      "isGroupActive": false,
+      "isGlobalActive": false
+    },
+    {
+      "uri": "file:///c%3A/Users/APUESTA%20TOTAL/Desktop/Curso%20Django/djangotutorial/facebook/tests.py",
+      "groupIndex": 2,
+      "tabIndex": 1,
+      "viewColumn": 3,
+      "isGroupActive": true,
+      "isGlobalActive": false,
+      "cursor": {
+        "line": 115,
+        "character": 13
+      }
+    },
+    {
+      "uri": "file:///c%3A/Users/APUESTA%20TOTAL/Desktop/Curso%20Django/djangotutorial/templates/base.html",
+      "groupIndex": 3,
+      "tabIndex": 0,
+      "viewColumn": 4,
+      "isGroupActive": true,
+      "isGlobalActive": true,
+      "cursor": {
+        "line": 1,
+        "character": 16
+      }
+    }
+  ]
+}
