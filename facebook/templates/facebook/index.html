@@ -1,16 +1,26 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Facebook{% endblock title %}
+{% block title %}
+  Facebook
+{% endblock %}
+
+{% block custom_styles %}
+  <link rel="stylesheet" href="{% static 'facebook/css/facebook_styles.css' %}" />
+{% endblock %}
 
 {% block content %}
-  {% include './includes/header.html' with active='index' %}
+  <main class="d-flex flex-nowrap">
+    {% include './includes/sidebar.html' %}
 
-  <main class="container mt-2">
-    <h1>Publicaciones</h1>
-    <p>Las mejores publicaciones de todo internet o si lo se voy a ver que tan rapido funciona</p>
-
-    {% include "./includes/show_posts.html" with posts=posts %}
-
+    <div class="container mt-5">
+      <h1>Publicaciones</h1>
+      <p>Las mejores publicaciones de todo internet o si lo se voy a ver que tan rapido funciona</p>
+      {% include './includes/show_posts.html' with posts=posts %}
+    </div>
   </main>
+{% endblock %}
+
+{% block scripts %}
+  <script src="{% static 'facebook/js/sidebar.js' %}" class="astro-vvvwv3sm"></script>
 {% endblock %}

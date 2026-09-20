@@ -12,14 +12,14 @@
 {% block content %}
   {% include './includes/header.html' with active='index' %}
 
-  <main class="container mt-2">
-    <div class="row">
+  <main class="container mt-5">
+    <div class="row justify-content-center">
       <div class="col-auto">
         <div id="profile-icon" class="rounded-circle border border-primary border-2 d-flex justify-content-center align-items-center overflow-hidden" width="50" height="50">
           <img src="{% static 'facebook/img/anonymous_user.webp' %}" class="object-fit-contain h-50 w-50" alt="Imagen de usuario anonimo" />
         </div>
       </div>
-      <div class="col">
+      <div class="col-auto">
         <h1>
           {{ user }}
           <button class="btn btn-primary btn-small">Seguir</button>
