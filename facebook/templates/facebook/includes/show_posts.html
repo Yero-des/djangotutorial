@@ -1,0 +1,10 @@
+<div class="container {{ style }}">
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
+    {% for post in posts %}
+      {% include './post.html' with post=post %}
+    {% empty %}
+      {% comment %}Sin posts para mostrar{% endcomment %}
+      <p class="text-center">Sin posts para mostrar</p>
+    {% endfor %}
+  </div>
+</div>

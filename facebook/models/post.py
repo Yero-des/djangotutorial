@@ -11,7 +11,7 @@ class Post(models.Model):
     
     title = models.CharField(max_length=100)
     body = models.TextField()
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, related_name='posts')
     status = models.CharField(max_length=20, choices=STATUS)
     created_at = models.DateTimeField(auto_now_add=True)
     

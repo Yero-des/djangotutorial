@@ -9,6 +9,7 @@ urlpatterns = [
     path('playground/', include('playground.urls')),
     path('facebook/', include('facebook.urls')),
     path('admin/', admin.site.urls),
+    path("__reload__/", include("django_browser_reload.urls")),
 ]
 
 # Django debug toolbar

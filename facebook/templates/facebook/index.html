@@ -1,24 +1,16 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block title %}Facebook{% endblock title %}
+
 {% block content %}
   {% include './includes/header.html' with active='index' %}
 
   <main class="container mt-2">
     <h1>Publicaciones</h1>
-    <p>Las mejores publicaciones de todo internet</p>
+    <p>Las mejores publicaciones de todo internet o si lo se voy a ver que tan rapido funciona</p>
 
-    <div class="container g-3">
-      <div class="row row-cols-3 justify-content-center align-items-center">
-        {% for post in posts %}
-          {% include './includes/post.html' with post=post %}
-        {% empty %}
-          {% comment %}Sin posts para mostrar{% endcomment %}
-          <p class="text-center">
-            Sin posts para mostrar
-          </p>
-        {% endfor %}
-      </div>
-    </div>
+    {% include "./includes/show_posts.html" with posts=posts %}
+
   </main>
 {% endblock %}

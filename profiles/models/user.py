@@ -15,6 +15,10 @@ class User(AbstractUser):
     @property
     def quantity_user_likes(self):
         return self.user_likes.count()
+
+    @property
+    def quantity_posts(self):
+        return self.posts.count()
     
     def __str__(self):
         return self.get_full_name() or self.username

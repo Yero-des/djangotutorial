@@ -1,9 +1,12 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.http import HttpResponseForbidden
-from django.views.generic import ListView, CreateView
+from django.views.generic import ListView, CreateView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth import get_user_model
 from .models import Post
+
+User = get_user_model()
 
 class IndexListView(ListView):
     model = Post
@@ -16,12 +19,18 @@ class PostCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('facebook:index')
     template_name = 'facebook/create_post.html'
     
-    def dispatch(self, request, *args, **kwargs):
-        if not self.request.user:
-            return HttpResponseForbidden("El usuario no esta logueado")
-        return super().dispatch(request, *args, **kwargs)
-    
     def form_valid(self, form):
         form.instance.user = self.request.user
         form.instance.status = 'active'
         return super().form_valid(form)
+    
+class UserDetailView(DetailView):
+    model = User
+    context_object_name = 'user'
+    template_name = 'facebook/detail_user.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["user_posts"] = self.object.posts.all()
+        return context
+    
