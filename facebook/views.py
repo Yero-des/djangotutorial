@@ -32,5 +32,6 @@ class UserDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["user_posts"] = self.object.posts.all()
+        context["is_user_detail"] = True
         return context
     
