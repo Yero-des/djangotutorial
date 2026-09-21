@@ -12,7 +12,6 @@ class Question(models.Model):
     def __str__(self):
         return self.question_text
     
-    # TODO: https://docs.djangoproject.com/es/6.1/ref/contrib/admin/#django.contrib.admin.ModelAdmin.list_display
     @admin.display(
         boolean=True,
         ordering="pub_date",

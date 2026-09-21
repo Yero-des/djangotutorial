@@ -1,44 +1,36 @@
-{% extends 'base.html' %}
+{% extends 'facebook/base_content.html' %}
 {% load static %}
 
 {% block title %}
-  Facebook
+  {{ user }}
 {% endblock %}
 
-{% block custom_styles %}
-  <link rel="stylesheet" href="{% static 'facebook/css/facebook_styles.css' %}" />
-{% endblock %}
-
-{% block content %}
-  {% include './includes/header.html' with active='index' %}
-
-  <main class="container mt-5">
-    <div class="row justify-content-center">
-      <div class="col-auto">
-        <div id="profile-icon" class="rounded-circle border border-primary border-2 d-flex justify-content-center align-items-center overflow-hidden" width="50" height="50">
-          <img src="{% static 'facebook/img/anonymous_user.webp' %}" class="object-fit-contain h-50 w-50" alt="Imagen de usuario anonimo" />
-        </div>
-      </div>
-      <div class="col-auto">
-        <h1>
-          {{ user }}
-          <button class="btn btn-primary btn-small">Seguir</button>
-          {% comment %} TODO: Implementar funcion para seguir un usuario {% endcomment %}
-        </h1>
-        <p class="text-secondary">{{ user.username }}</p>
-        <p class="m-0">
-          <i class="bi bi-person-check-fill"></i> <span class="fw-bold">Seguidores:</span> {{ user.quantity_followers }}
-        </p>
-        <p class="m-0">
-          <i class="bi bi-hand-thumbs-up-fill"></i> <span class="fw-bold">Likes:</span> {{ user.quantity_user_likes }}
-        </p>
-        <p class="m-0">
-          <i class="bi bi-window-plus"></i> <span class="fw-bold">Publicaciones:</span> {{ user.quantity_posts }}
-        </p>
+{% block page_content %}
+  <div class="row justify-content-center">
+    <div class="col-auto">
+      <div id="profile-icon" class="rounded-circle border border-primary border-2 d-flex justify-content-center align-items-center overflow-hidden" width="50" height="50">
+        <img src="{% static 'facebook/img/anonymous_user.webp' %}" class="object-fit-contain h-50 w-50" alt="Imagen de usuario anonimo" />
       </div>
     </div>
-  </main>
+    <div class="col-auto">
+      <h1>
+        {{ user }}
+        <button class="btn btn-primary btn-small">Seguir</button>
+        {% comment %}TODO: Implementar funcion para seguir un usuario{% endcomment %}
+      </h1>
+      <p class="text-secondary">{{ user.username }}</p>
+      <p class="m-0">
+        <i class="bi bi-person-check-fill"></i> <span class="fw-bold">Seguidores:</span> {{ user.quantity_followers }}
+      </p>
+      <p class="m-0">
+        <i class="bi bi-hand-thumbs-up-fill"></i> <span class="fw-bold">Likes:</span> {{ user.quantity_user_likes }}
+      </p>
+      <p class="m-0">
+        <i class="bi bi-window-plus"></i> <span class="fw-bold">Publicaciones:</span> {{ user.quantity_posts }}
+      </p>
+    </div>
+  </div>
 
-  {% include "./includes/show_posts.html" with posts=user_posts style='mt-5'%}
+  {% include './includes/show_posts.html' with posts=user_posts style='mt-5' %}
 
 {% endblock %}

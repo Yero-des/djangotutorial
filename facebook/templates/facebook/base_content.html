@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block custom_styles %}
+  <link rel="stylesheet" href="{% static 'facebook/css/facebook_styles.css' %}" />
+{% endblock %}
+
+{% block content %}
+  <main class="d-flex flex-nowrap">
+
+    {% include './includes/sidebar.html' with active=current_view %}
+
+    <section class="overflow-y-auto w-100">
+      <div class="container mt-5">
+        {% block page_content %}
+        {% endblock %}
+      </div>
+    </section>
+
+  </main>
+{% endblock %}
+
+{% block scripts %}
+  <script src="{% static 'facebook/js/sidebar.js' %}" class="astro-vvvwv3sm"></script>
+{% endblock %}

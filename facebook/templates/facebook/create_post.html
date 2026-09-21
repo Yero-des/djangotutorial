@@ -1,22 +1,20 @@
-{% extends 'base.html' %}
-{% load static %}
+{% extends 'facebook/base_content.html' %}
 
-{% block content %}
+{% block title %}
+  Crear Publicación
+{% endblock %}
 
-  {% include './includes/header.html' with active='create-post' %}
+{% block page_content %}
+  <h1>Crear publicación</h1>
+  <p>Puedes crear un publicacion solo si estas logueado</p>
+  
+  <form method="post">
+    {% csrf_token %}
 
-  <main class="container mt-2">
-    <h1>Crear publicación</h1>
-    <p>Puedes crear un publicacion solo si estas logueado</p>
+    {{ form.as_p }}
     
-    <form method="post">
-      {% csrf_token %}
+    <button class="btn btn-success" type="submit">Crear publicación</button>
 
-      {{ form.as_p }}
-      
-      <button class="btn btn-success" type="submit">Crear publicación</button>
+  </form>
 
-    </form>
-
-  </main>
 {% endblock %}

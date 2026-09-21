@@ -1,27 +1,23 @@
+{% load static %}
 <div class="d-flex flex-column flex-shrink-0 bg-body-tertiary" style="width: 4.5rem">
-  <a href="/" class="d-block p-3 link-body-emphasis text-decoration-none" title="Icon-only" data-bs-toggle="tooltip" data-bs-placement="right">
-    <svg class="bi bi-bootstrap" width="40" height="32" aria-hidden="true"></svg>
+  <a href="{% url 'facebook:index' %}" class="d-flex p-3 link-body-emphasis text-decoration-none justify-content-center" title="Icon-only" data-bs-toggle="tooltip" data-bs-placement="right">
+    <i class="bi bi-facebook fs-3" aria-hidden="true"></i>
     <span class="visually-hidden">Facebook</span>
   </a>
   <ul class="nav nav-pills nav-flush flex-column mb-auto text-center">
     <li class="nav-item">
-      <a href="#" class="nav-link active py-3 border-bottom rounded-0" aria-current="page" title="Principal" data-bs-toggle="tooltip" data-bs-placement="right">
-        <i class="bi bi-house" width="24" height="24" role="img" aria-label="Principal"></i>
-      </a>
+      <a href="{% url 'facebook:index' %}" class="nav-link {% if active == 'index' %}active{% endif %} py-3 border-bottom rounded-0" aria-current="page" title="Principal" data-bs-toggle="tooltip" data-bs-placement="right"><i class="bi bi-house" width="24" height="24" role="img" aria-label="Principal"></i></a>
     </li>
     <li>
-      <a href="#" class="nav-link py-3 border-bottom rounded-0" title="Publicaciones" data-bs-toggle="tooltip" data-bs-placement="right">
-        <i class="bi bi-window-plus" width="24" height="24" role="img" aria-label="Publicaciones"></i>
-      </a>
+      <a href="{% url 'facebook:create-post' %}" class="nav-link {% if active == 'create-post' %}active{% endif %} py-3 border-bottom rounded-0" title="Publicaciones" data-bs-toggle="tooltip" data-bs-placement="right"><i class="bi bi-window-plus" width="24" height="24" role="img" aria-label="Publicaciones"></i></a>
     </li>
     <li>
-      <a href="#" class="nav-link py-3 border-bottom rounded-0" title="Usuarios" data-bs-toggle="tooltip" data-bs-placement="right">
-        <i class="bi bi-person-circle" width="24" height="24" role="img" aria-label="Usuarios"></i>
-      </a>
+      <a href="#" class="nav-link {% if active == 'users' %}active{% endif %} py-3 border-bottom rounded-0" title="Usuarios" data-bs-toggle="tooltip" data-bs-placement="right"><i class="bi bi-person-circle" width="24" height="24" role="img" aria-label="Usuarios"></i></a>
     </li>
   </ul>
+  {% comment %} TODO: Corregir javascript en sidebar {% endcomment %}
   <div class="dropdown border-top">
-    <a href="#" class="d-flex align-items-center justify-content-center p-3 link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><img src="https://github.com/mdo.png" alt="mdo" width="24" height="24" class="rounded-circle" /></a>
+    <a href="#" class="d-flex align-items-center justify-content-center p-3 link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><img src="{% static 'facebook/img/anonymous_user.webp' %}" alt="mdo" width="24" height="24" class="rounded-circle object-fit-contain" /></a>
     <ul class="dropdown-menu text-small shadow">
       <li>
         <a class="dropdown-item" href="#">New project...</a>

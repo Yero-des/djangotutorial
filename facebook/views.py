@@ -13,6 +13,11 @@ class IndexListView(ListView):
     template_name = 'facebook/index.html'
     context_object_name = 'posts'
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["current_view"] = 'index'
+        return context
+    
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
     fields = ['title', 'body']
@@ -24,6 +29,12 @@ class PostCreateView(LoginRequiredMixin, CreateView):
         form.instance.status = 'active'
         return super().form_valid(form)
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["current_view"] = 'create-post'
+        return context
+    
+    
 class UserDetailView(DetailView):
     model = User
     context_object_name = 'user'
@@ -33,5 +44,6 @@ class UserDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         context["user_posts"] = self.object.posts.all()
         context["is_user_detail"] = True
+        context["current_view"] = 'users'
         return context
     
