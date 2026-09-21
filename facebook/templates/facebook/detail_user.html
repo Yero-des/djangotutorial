@@ -15,8 +15,17 @@
     <div class="col-auto">
       <h1>
         {{ user }}
-        <button class="btn btn-primary btn-small">Seguir</button>
-        {% comment %}TODO: Implementar funcion para seguir un usuario{% endcomment %}
+        {% if is_following %}
+          <form class="d-inline" method="post" action="{% url 'facebook:follow-user' user_id=user.id %}">
+            {% csrf_token %}
+            <button class="btn btn-outline-danger btn-small">Dejar de seguir</button>
+          </form>
+        {% else %}
+          <form class="d-inline" method="post" action="{% url 'facebook:follow-user' user_id=user.id %}">
+            {% csrf_token %}
+            <button class="btn btn-primary btn-small">Seguir</button>
+          </form>
+        {% endif %}
       </h1>
       <p class="text-secondary">{{ user.username }}</p>
       <p class="m-0">
@@ -32,5 +41,4 @@
   </div>
 
   {% include './includes/show_posts.html' with posts=user_posts style='mt-5' %}
-
 {% endblock %}

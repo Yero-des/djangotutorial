@@ -1,6 +1,6 @@
 {% load static %}
 <div class="d-flex flex-column flex-shrink-0 bg-body-tertiary" style="width: 4.5rem">
-  <a href="{% url 'facebook:index' %}" class="d-flex p-3 link-body-emphasis text-decoration-none justify-content-center" title="Icon-only" data-bs-toggle="tooltip" data-bs-placement="right">
+  <a href="{% url 'facebook:index' %}" class="d-flex p-3 link-body-emphasis text-decoration-none justify-content-center" title="Facebook" data-bs-toggle="tooltip" data-bs-placement="right">
     <i class="bi bi-facebook fs-3" aria-hidden="true"></i>
     <span class="visually-hidden">Facebook</span>
   </a>
@@ -15,24 +15,21 @@
       <a href="#" class="nav-link {% if active == 'users' %}active{% endif %} py-3 border-bottom rounded-0" title="Usuarios" data-bs-toggle="tooltip" data-bs-placement="right"><i class="bi bi-person-circle" width="24" height="24" role="img" aria-label="Usuarios"></i></a>
     </li>
   </ul>
-  {% comment %} TODO: Corregir javascript en sidebar {% endcomment %}
+  {% comment %} TODO: Agregar perfil de usuario y cierre de sesión {% endcomment %}
   <div class="dropdown border-top">
     <a href="#" class="d-flex align-items-center justify-content-center p-3 link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><img src="{% static 'facebook/img/anonymous_user.webp' %}" alt="mdo" width="24" height="24" class="rounded-circle object-fit-contain" /></a>
-    <ul class="dropdown-menu text-small shadow">
+    <ul class="dropdown-menu text-small shadow">     
       <li>
-        <a class="dropdown-item" href="#">New project...</a>
+        <a class="dropdown-item" href="#">Configuraciones</a>
       </li>
       <li>
-        <a class="dropdown-item" href="#">Settings</a>
-      </li>
-      <li>
-        <a class="dropdown-item" href="#">Profile</a>
+        <a class="dropdown-item" href="#">Perfil</a>
       </li>
       <li>
         <hr class="dropdown-divider" />
       </li>
       <li>
-        <a class="dropdown-item" href="#">Sign out</a>
+        <a class="dropdown-item" href="#">Cerrar sesión</a>
       </li>
     </ul>
   </div>
