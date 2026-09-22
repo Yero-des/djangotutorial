@@ -5,6 +5,7 @@ from django.views.generic import ListView, CreateView, DetailView, View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import get_user_model
 from .models import Post, Follow
+from django.contrib import messages
 
 User = get_user_model()
 
@@ -66,11 +67,16 @@ class FollowView(LoginRequiredMixin, View):
         # Si el seguimiento existe se elimina
         if follow.exists():
             follow.delete()
+            
+            messages.warning(self.request, f'Se dejo de seguir a "{user_to_follow}"')
+            
         else:
             Follow.objects.create(
                 following_user=request.user,
                 followed_user=user_to_follow
             )
         
+            messages.success(self.request, f'Se comenzo a seguir a "{user_to_follow}"', extra_tags='primary')
+            
         return redirect(request.META.get('HTTP_REFERER', '/'))
     
