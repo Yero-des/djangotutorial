@@ -5,9 +5,9 @@ from django.conf import settings
 
 urlpatterns = [
     path('', generic.RedirectView.as_view(pattern_name='facebook:index')),
-    path('polls/', include('polls.urls')),
-    path('playground/', include('playground.urls')),
-    path('facebook/', include('facebook.urls')),
+    path('polls/', include('apps.polls.urls')),
+    path('playground/', include('apps.playground.urls')),
+    path('facebook/', include('apps.facebook.urls')),
     path('admin/', admin.site.urls),
     path("__reload__/", include("django_browser_reload.urls")),
 ]

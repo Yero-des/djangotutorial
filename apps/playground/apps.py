@@ -2,4 +2,4 @@ from django.apps import AppConfig
 
 
 class PlaygroundConfig(AppConfig):
-    name = 'playground'
+    name = 'apps.playground'

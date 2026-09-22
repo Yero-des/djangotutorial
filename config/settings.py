@@ -36,10 +36,10 @@ INTERNAL_IPS = [
 
 # Application definition
 INSTALLED_APPS = [
-    'facebook.apps.FacebookConfig',
-    'polls.apps.PollsConfig',
-    'playground.apps.PlaygroundConfig',
-    'profiles.apps.ProfilesConfig',
+    'apps.facebook',
+    'apps.polls',
+    'apps.playground',
+    'apps.profiles',
     'django_browser_reload',
     'django.contrib.admin',
     'django.contrib.auth',
