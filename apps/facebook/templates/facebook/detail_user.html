@@ -8,8 +8,8 @@
 {% block page_content %}
   <div class="row justify-content-center">
     <div class="col-auto">
-      <div id="profile-icon" class="rounded-circle border border-primary border-2 d-flex justify-content-center align-items-center overflow-hidden" width="50" height="50">
-        <img src="{% static 'facebook/img/anonymous_user.webp' %}" class="object-fit-contain h-50 w-50" alt="Imagen de usuario anonimo" />
+      <div id="profile-icon" class="rounded-circle border border-primary border-2 overflow-hidden" width="50" height="50">
+        <img src="{% static 'facebook/img/anonymous_user.webp' %}" class="object-fit-cover h-100 w-100" alt="Imagen de usuario anonimo" />
       </div>
     </div>
     <div class="col-auto">
@@ -41,4 +41,28 @@
   </div>
 
   {% include './includes/show_posts.html' with posts=user_posts style='mt-5' %}
+{% endblock %}
+
+{% block messages %}
+  <div class="toast-container position-static">
+    <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-header">
+        <img src="..." class="rounded me-2" alt="..." />
+        <strong class="me-auto">Bootstrap</strong>
+        <small class="text-body-secondary">just now</small>
+        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+      <div class="toast-body">See? Just like this.</div>
+    </div>
+
+    <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-header">
+        <img src="..." class="rounded me-2" alt="..." />
+        <strong class="me-auto">Bootstrap</strong>
+        <small class="text-body-secondary">2 seconds ago</small>
+        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+      <div class="toast-body">Heads up, toasts will stack automatically</div>
+    </div>
+  </div>
 {% endblock %}

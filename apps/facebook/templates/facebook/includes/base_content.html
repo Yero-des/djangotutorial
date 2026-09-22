@@ -9,8 +9,7 @@
   <main class="d-flex flex-nowrap">
     {% include './sidebar.html' with active=current_view %}
 
-    <section class="overflow-y-auto w-100">
-      {% comment %} <img src="{% static 'facebook/img/facebook_background.webp' %}" alt="Imagen de fondo para contenido" class="w-100" styles="height: 5rem;" /> {% endcomment %}
+    <section class="overflow-y-auto w-100">      
 
       <div class="container mt-5">
         {% block page_content %}
