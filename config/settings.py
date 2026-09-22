@@ -58,6 +58,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',    
     'django_browser_reload.middleware.BrowserReloadMiddleware',
+    'apps.profiles.middleware.RedirectAuthenticatedMiddleware',
 ]
 
 # Toolbars
@@ -165,3 +166,6 @@ MAILERS = {
         'BACKEND': 'django.core.mail.backends.console.EmailBackend',
     },
 }
+
+LOGIN_REDIRECT_URL = 'facebook:index'
+LOGOUT_REDIRECT_URL = 'profiles:login'

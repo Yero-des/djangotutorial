@@ -1,0 +1,27 @@
+{% extends './includes/base_content_profiles.html' %}
+
+{% block title %}
+  Iniciar sesión
+{% endblock %}
+
+{% block page_content %}
+  <form method="post">
+    {% csrf_token %}
+
+    <i class="bi bi-facebook display-2"></i>
+    <h1 class="h3 mb-3 mt-3 fw-normal">Por favor inicie sesión</h1>
+    <div class="form-floating">
+      <input type="text" name="username" class="form-control" id="floatingInput" placeholder="Usuario" /> <label for="floatingInput">Usuario</label>
+    </div>
+    <div class="form-floating">
+      <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Contraseña" /> <label for="floatingPassword">Contraseña</label>
+    </div>
+    <div class="form-check text-start my-3">
+      {% comment %}TODO: Implementar funcionalidad recuerdame en login{% endcomment %}
+      <input class="form-check-input" type="checkbox" value="Recuerdame" id="checkDefault" /> <label class="form-check-label" for="checkDefault">Recuerdame</label>
+    </div>
+
+    <button class="btn btn-primary w-100 py-2" type="submit">Iniciar sesión</button>
+    <p class="mt-2 mb-3 text-body-secondary">© 2026</p>
+  </form>
+{% endblock %}

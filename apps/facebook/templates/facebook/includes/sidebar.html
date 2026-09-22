@@ -15,10 +15,10 @@
       <a href="#" class="nav-link {% if active == 'users' %}active{% endif %} py-3 border-bottom rounded-0" title="Usuarios" data-bs-toggle="tooltip" data-bs-placement="right"><i class="bi bi-person-circle" width="24" height="24" role="img" aria-label="Usuarios"></i></a>
     </li>
   </ul>
-  {% comment %} TODO: Agregar perfil de usuario y cierre de sesión {% endcomment %}
+  {% comment %}TODO: Agregar perfil de usuario{% endcomment %}
   <div class="dropdown border-top">
-    <a href="#" class="d-flex align-items-center justify-content-center p-3 link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><img src="{% static 'facebook/img/anonymous_user.webp' %}" alt="mdo" width="24" height="24" class="rounded-circle object-fit-cover"/></a>
-    <ul class="dropdown-menu text-small shadow">     
+    <a href="#" class="d-flex align-items-center justify-content-center p-3 link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><img src="{% static 'facebook/img/anonymous_user.webp' %}" alt="mdo" width="24" height="24" class="rounded-circle object-fit-cover" /></a>
+    <ul class="dropdown-menu text-small shadow">
       <li>
         <a class="dropdown-item" href="#">Configuraciones</a>
       </li>
@@ -29,7 +29,10 @@
         <hr class="dropdown-divider" />
       </li>
       <li>
-        <a class="dropdown-item" href="#">Cerrar sesión</a>
+        <form action="{% url 'profiles:logout' %}" method="post">
+          {% csrf_token %}
+          <button type="submit" class="dropdown-item" href="#">Cerrar sesión</button>
+        </form>
       </li>
     </ul>
   </div>
