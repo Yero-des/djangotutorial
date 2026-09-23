@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'apps.polls',
     'apps.playground',
     'apps.profiles',
+    'django_watchfiles',
     'django_browser_reload',
     'django.contrib.admin',
     'django.contrib.auth',
