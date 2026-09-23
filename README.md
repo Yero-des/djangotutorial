@@ -10,7 +10,7 @@ DATABASE_PASSWORD=
 
 ## Uso de pipenv
 ```
-pipenv install --deploy
+pipenv install --dev
 ```
 
 

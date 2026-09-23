@@ -68,3 +68,17 @@ main {
     width: 10rem;
     height: 10rem;
 }
+
+.img-post-profile {
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(0%, 5%); /* Combina con el translate-middle de Bootstrap */
+  transition: all 0.4s ease-in-out;
+}
+
+/* 2. Estado cuando se pasa el cursor por el PADRE */
+.img-post-container:hover .img-post-profile {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(0%, -15%); /* Regresa a su posición original centrada */
+}
