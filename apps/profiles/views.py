@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import TemplateView
+from django.views.generic import UpdateView
 from django.contrib.auth.views import LoginView
 from django.contrib import messages
 

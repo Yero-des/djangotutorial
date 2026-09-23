@@ -19,12 +19,7 @@
     <a href="#" class="d-flex align-items-center justify-content-center p-3 link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><img src="{{ request.user.photo_url }}" alt="mdo" width="24" height="24" class="rounded-circle object-fit-cover" /></a>
     <ul class="dropdown-menu text-small shadow">
       <li>
-        {% comment %} TODO: Agregar configuraciones de usuario {% endcomment %}
-        <a class="dropdown-item" href="#">Configuraciones</a>
-      </li>
-      <li>
-        {% comment %}TODO: Agregar perfil de usuario{% endcomment %}
-        <a class="dropdown-item" href="#">Perfil</a>
+        <a class="dropdown-item" href="{% url 'facebook:profile' username=request.user.username %}">Perfil</a>
       </li>
       <li>
         <hr class="dropdown-divider" />

@@ -1,7 +1,8 @@
+from django.contrib.auth import get_user_model
 from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.http import HttpResponseForbidden
-from django.views.generic import ListView, CreateView, DetailView, View
+from django.views.generic import ListView, CreateView, DetailView, View, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import get_user_model
 from .models import Post, Follow
@@ -35,6 +36,8 @@ class PostCreateView(LoginRequiredMixin, CreateView):
         context["current_view"] = 'create-post'
         return context
     
+    # TODO: Dar estilos a formulario para crear publicaciones
+    
 class UserDetailView(DetailView):
     model = User
     context_object_name = 'user'
@@ -53,6 +56,28 @@ class UserDetailView(DetailView):
         
         return context
 
+class UserUpdateView(UpdateView):
+    model = User
+    fields = ['username', 'first_name', 'last_name', 'email', 'photo']
+    template_name = 'facebook/profile.html'
+    
+    slug_field = 'username'
+    slug_url_kwarg = 'username'
+    
+    def get_queryset(self):
+        return User.objects.filter(username=self.request.user.username)
+    
+    def get_success_url(self):
+        return reverse('facebook:profile', kwargs={
+            'username': self.object.username
+        })
+    
+    def form_valid(self, form):
+        messages.success(self.request, f"Usuario '{self.object.username}' se actualizo correctamente.")
+        return super().form_valid(form)
+    
+    # TODO: Dar estilos a formulario para actualizar datos de perfil
+    
 class FollowView(LoginRequiredMixin, View):
     
     def post(self, request, user_id):

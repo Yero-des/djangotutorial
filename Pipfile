@@ -30,6 +30,7 @@ tzdata = "==2026.3"
 wcwidth = "==0.8.2"
 django-watchfiles = "*"
 pillow = "*"
+django-cleanup = "*"
 
 [dev-packages]
 
