@@ -16,7 +16,7 @@
     </li>
   </ul>
   <div class="dropdown border-top">
-    <a href="#" class="d-flex align-items-center justify-content-center p-3 link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><img src="{% static 'facebook/img/anonymous_user.webp' %}" alt="mdo" width="24" height="24" class="rounded-circle object-fit-cover" /></a>
+    <a href="#" class="d-flex align-items-center justify-content-center p-3 link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><img src="{{ request.user.photo_url }}" alt="mdo" width="24" height="24" class="rounded-circle object-fit-cover" /></a>
     <ul class="dropdown-menu text-small shadow">
       <li>
         {% comment %} TODO: Agregar configuraciones de usuario {% endcomment %}

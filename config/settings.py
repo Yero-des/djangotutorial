@@ -170,3 +170,6 @@ MAILERS = {
 
 LOGIN_REDIRECT_URL = 'facebook:index'
 LOGOUT_REDIRECT_URL = 'profiles:login'
+
+MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_URL = '/media/'

@@ -8,3 +8,4 @@ urlpatterns = [
     path('user/detail/<int:pk>', views.UserDetailView.as_view(), name="detail-user"),
     path('follow/<int:user_id>', views.FollowView.as_view(), name='follow-user')
 ]
+
