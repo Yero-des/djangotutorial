@@ -8,6 +8,12 @@ DATABASE_USER=
 DATABASE_PASSWORD=
 ```
 
+## Uso de pipenv
+```
+pipenv install --deploy
+```
+
+
 ## Enlaces
 
 * https://docs.djangoproject.com/es/6.1/topics/
