@@ -8,11 +8,10 @@ DATABASE_USER=
 DATABASE_PASSWORD=
 ```
 
-## Uso de pipenv
+## Uso de poetry
 ```
-pipenv install --dev
+Invoke-Expression (poetry env activate)
 ```
-
 
 ## Enlaces
 
