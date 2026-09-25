@@ -26,6 +26,14 @@ wheels/
 .installed.cfg
 *.egg
 
+# Exclusion bootstrap
+!static/bootstrap/build/
+!static/bootstrap/build/**
+!static/bootstrap/dist/
+!static/bootstrap/dist/**
+!static/bootstrap/js/dist/
+!static/bootstrap/js/dist/**
+
 # PyInstaller
 #  Usually these files are written by a python script from a template
 #  before PyInstaller builds the exe, so as to inject date/other infos into it.

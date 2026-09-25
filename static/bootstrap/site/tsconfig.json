@@ -1,7 +1,6 @@
-{  
+{
   "extends": "astro/tsconfigs/strict",
-  "compilerOptions": {    
-    "ignoreDeprecations": "6.0",
+  "compilerOptions": {
     "baseUrl": ".",
     "paths": {
       "@assets/*": ["src/assets/*"],

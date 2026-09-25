@@ -52,9 +52,14 @@
     }
   </script> {% endcomment %}
   <script>
-    const toastEl = document.querySelector('.toast')
-    const toast = new bootstrap.Toast(toastEl)
-    toast.show()
+    
+    const toastEls = document.querySelectorAll('.toast')
+
+    toastEls.forEach(toastEl => {
+      const toast = new bootstrap.Toast(toastEl)
+      toast.show()
+    })
+
   </script>
 
   {% block facebook_scripts %}
