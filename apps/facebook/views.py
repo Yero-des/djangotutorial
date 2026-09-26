@@ -7,6 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import get_user_model
 from .models import Post, Follow
 from django.contrib import messages
+from .forms import PostForm
 
 User = get_user_model()
 
@@ -22,7 +23,7 @@ class IndexListView(ListView):
     
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
-    fields = ['title', 'body']
+    form_class = PostForm
     success_url = reverse_lazy('facebook:index')
     template_name = 'facebook/create_post.html'
     

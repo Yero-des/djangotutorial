@@ -10,7 +10,9 @@ DATABASE_PASSWORD=
 
 ## Uso de poetry
 ```
-Invoke-Expression (poetry env activate)
+Invoke-Expression (poetry env activate) # Activar entorno virtual
+[tool.poetry]
+package-mode = false # Para no instalar la app como un paquete tambien
 ```
 
 ## Enlaces

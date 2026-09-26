@@ -8,7 +8,7 @@ class PersonModelTests(TestCase):
         """
         person.shirt_sizes should return an empty string with a new value
         """
-        person = Person(name="Yeromi", last_name="Zavala Castillo", shirt_sizes="XL", country="PE",) 
+        person = Person(name="Yeromi", last_name="Zavala Castillo", shirt_sizes="XL") 
         
         with self.assertRaises(ValidationError):
             person.full_clean()
