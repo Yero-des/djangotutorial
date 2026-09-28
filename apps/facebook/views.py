@@ -11,7 +11,7 @@ from django.contrib import messages
 
 User = get_user_model()
 
-class IndexListView(ListView):
+class IndexListView(LoginRequiredMixin, ListView):
     model = Post
     template_name = 'facebook/index.html'
     context_object_name = 'posts'
