@@ -5,7 +5,7 @@ from django.templatetags.static import static
 # Create your models here.
 class User(AbstractUser):
     
-    photo = models.ImageField(upload_to='profiles/photos', null=True, blank=True)
+    photo = models.ImageField(upload_to='profiles/photos', null=True, blank=True, verbose_name='Foto')
     
     @property
     def photo_url(self):

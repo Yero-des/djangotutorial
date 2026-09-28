@@ -1,4 +1,3 @@
-from django.contrib.auth import get_user_model
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy, reverse
 from django.http import HttpResponseForbidden
@@ -8,7 +7,7 @@ from django.contrib.auth import get_user_model
 from .models import Post, Follow
 from .forms import PostForm
 from django.contrib import messages
-from .forms import PostForm
+from .forms import PostForm, UserForm
 
 User = get_user_model()
 
@@ -60,7 +59,7 @@ class UserDetailView(DetailView):
 
 class UserUpdateView(UpdateView):
     model = User
-    fields = ['username', 'first_name', 'last_name', 'email', 'photo']
+    form_class = UserForm
     template_name = 'facebook/profile.html'
     
     slug_field = 'username'
@@ -78,7 +77,10 @@ class UserUpdateView(UpdateView):
         messages.success(self.request, f"Usuario '{self.object.username}' se actualizo correctamente.")
         return super().form_valid(form)
     
-    # TODO: Dar estilos a formulario para actualizar datos de perfil
+    def get_context_data(self, **kwargs) :
+        context = super().get_context_data(**kwargs)
+        context["posts_user"] = Post.objects.filter(user=self.request.user)
+        return context
     
 class FollowView(LoginRequiredMixin, View):
     

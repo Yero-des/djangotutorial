@@ -1,9 +1,12 @@
 from django import forms
 from .models import Post
+from django.contrib.auth import get_user_model
 
 BAD_WORDS = [
     'idiota', 'cabron', 'csm', 'tarado', 'gilipollas', 'imbecil', 'retrasado', 'hijo de'
 ]
+
+User = get_user_model()
 
 class BootstrapModelForm(forms.ModelForm):
 
@@ -21,21 +24,17 @@ class BootstrapModelForm(forms.ModelForm):
 class PostForm(BootstrapModelForm):
     class Meta:
         model = Post
-        fields = ['title', 'body']
+        fields = ['title', 'content']
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control'}),
-            'body': forms.Textarea(attrs={'class': 'form-control', 'rows': '5'})
-        }
-        labels = {
-            'title': 'Titulo',
-            'body': 'Contenido'
+            'content': forms.Textarea(attrs={'class': 'form-control', 'rows': '5'})
         }
         error_messages = {
             'title': {
                 'required': 'El campo es requerido.',
                 'max_length': 'El titulo es demasiado largo'
             },
-            'body': {
+            'content': {
                 'required': 'El campo es requerido.'
             }
         }
@@ -58,11 +57,26 @@ class PostForm(BootstrapModelForm):
 
         return title
     
-    def clean_body(self):
-        body = self.cleaned_data['body']
+    def clean_content(self):
+        content = self.cleaned_data['content']
         
         for word in BAD_WORDS:
-            if word in body.lower():
+            if word in content.lower():
                 raise forms.ValidationError('Trata de ser respetuoso')
             
-        return body
+        return content
+    
+class UserForm(BootstrapModelForm):
+    
+    class Meta:
+        model = User
+        fields = ['username', 'first_name', 'last_name', 'email', 'photo']
+        widgets = {
+            'username': forms.TextInput(attrs={'class': 'form-control'}),
+            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'photo': forms.FileInput(attrs={
+                'class': 'form-control', 'hidden': ''
+            })
+        }
