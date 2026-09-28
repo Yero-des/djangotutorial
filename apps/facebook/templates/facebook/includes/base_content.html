@@ -40,31 +40,10 @@
 {% endblock %}
 
 {% block scripts %}
-  {% comment %} <script>
-    const toastTrigger = document.getElementById('liveToastBtn')
-    const toastLiveExample = document.getElementById('liveToast')
-    
-    if (toastTrigger) {
-      const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
-      toastTrigger.addEventListener('click', () => {
-        toastBootstrap.show()
-      })
-    }
-  </script> {% endcomment %}
-  <script>
-    
-    const toastEls = document.querySelectorAll('.toast')
-
-    toastEls.forEach(toastEl => {
-      const toast = new bootstrap.Toast(toastEl)
-      toast.show()
-    })
-
-  </script>
-
   {% block facebook_scripts %}
 
   {% endblock %}
 
   <script src="{% static 'facebook/js/sidebar.js' %}"></script>
+  <script src="{% static 'facebook/js/appGeneral.js' %}"></script>
 {% endblock %}

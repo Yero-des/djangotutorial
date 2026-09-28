@@ -1,6 +1,10 @@
 from django import forms
 from .models import Post
 
+BAD_WORDS = [
+    'idiota', 'cabron', 'csm', 'tarado', 'gilipollas', 'imbecil', 'retrasado', 'hijo de'
+]
+
 class BootstrapModelForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
@@ -35,11 +39,30 @@ class PostForm(BootstrapModelForm):
                 'required': 'El campo es requerido.'
             }
         }
+    
+    def as_p(self):
+        return self._html_output(
+            normal_row='<p%(html_class_attr)s>%(label)s %(field)s%(help_text)s%(errors)s</p>',
+            error_row='<ul class="invalid-feedback">%s</ul>',
+            row_ender='</p>',
+            help_text_html='<span class="helptext">%s</span>',
+            errors_on_separate_row=False,
+        )
         
     def clean_title(self):
-        title = self.cleaned_data['title']        
+        title = self.cleaned_data['title']     
         
-        if 'i' in title:
-            raise forms.ValidationError('No se puede')
+        for word in BAD_WORDS:
+            if word in title.lower():
+                raise forms.ValidationError('Trata de ser respetuoso')                
 
         return title
+    
+    def clean_body(self):
+        body = self.cleaned_data['body']
+        
+        for word in BAD_WORDS:
+            if word in body.lower():
+                raise forms.ValidationError('Trata de ser respetuoso')
+            
+        return body

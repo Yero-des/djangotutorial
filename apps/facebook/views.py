@@ -38,8 +38,6 @@ class PostCreateView(LoginRequiredMixin, CreateView):
         context["current_view"] = 'create-post'
         return context
     
-    # TODO: Dar estilos a formulario para crear publicaciones
-    
 class UserDetailView(DetailView):
     model = User
     context_object_name = 'user'

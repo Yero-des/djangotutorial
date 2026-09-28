@@ -82,3 +82,8 @@ main {
   visibility: visible;
   transform: translate(0%, -15%); /* Regresa a su posición original centrada */
 }
+
+.invalid-feedback-custom {
+  list-style: inside;
+  padding: 0;
+}
