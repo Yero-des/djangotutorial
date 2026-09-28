@@ -169,6 +169,7 @@ MAILERS = {
     },
 }
 
+LOGIN_URL = 'profiles:login'
 LOGIN_REDIRECT_URL = 'facebook:index'
 LOGOUT_REDIRECT_URL = 'profiles:login'
 

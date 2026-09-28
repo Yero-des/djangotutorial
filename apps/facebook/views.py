@@ -6,12 +6,13 @@ from django.views.generic import ListView, CreateView, DetailView, View, UpdateV
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import get_user_model
 from .models import Post, Follow
+from .forms import PostForm
 from django.contrib import messages
 from .forms import PostForm
 
 User = get_user_model()
 
-class IndexListView(ListView):
+class IndexListView(LoginRequiredMixin, ListView):
     model = Post
     template_name = 'facebook/index.html'
     context_object_name = 'posts'
@@ -56,6 +57,8 @@ class UserDetailView(DetailView):
         ).exists()        
         
         return context
+    
+    # TODO: Implementar funcion para eliminar / modificar nuestras propios post
 
 class UserUpdateView(UpdateView):
     model = User
