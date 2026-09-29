@@ -36,11 +36,11 @@ INTERNAL_IPS = [
 
 # Application definition
 INSTALLED_APPS = [
+    'django_watchfiles',
     'apps.profiles',
     'apps.facebook',
     'apps.polls',
     'apps.playground',
-    'django_watchfiles',
     'django_browser_reload',
     'django.contrib.admin',
     'django.contrib.auth',

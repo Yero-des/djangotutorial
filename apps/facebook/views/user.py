@@ -1,42 +1,14 @@
-from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import reverse_lazy, reverse
-from django.http import HttpResponseForbidden
-from django.views.generic import ListView, CreateView, DetailView, View, UpdateView
+from django.shortcuts import get_object_or_404
+from django.urls import reverse
+from django.views.generic import DetailView, View, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import get_user_model
-from .models import Post, Follow
-from .forms import PostForm
+from ..models import Post, Follow
 from django.contrib import messages
-from .forms import PostForm, UserForm
+from ..forms import UserForm
 
 User = get_user_model()
 
-class IndexListView(LoginRequiredMixin, ListView):
-    model = Post
-    template_name = 'facebook/index.html'
-    context_object_name = 'posts'
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["current_view"] = 'index'
-        return context
-    
-class PostCreateView(LoginRequiredMixin, CreateView):
-    model = Post
-    form_class = PostForm
-    success_url = reverse_lazy('facebook:index')
-    template_name = 'facebook/create_post.html'
-    
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        form.instance.status = 'active'
-        return super().form_valid(form)
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["current_view"] = 'create-post'
-        return context
-    
 class UserDetailView(DetailView):
     model = User
     context_object_name = 'user'
@@ -105,7 +77,5 @@ class FollowView(LoginRequiredMixin, View):
                 followed_user=user_to_follow
             )
         
-            messages.success(self.request, f'Se comenzo a seguir a "{user_to_follow}"', extra_tags='primary')
-            
-        return redirect(request.META.get('HTTP_REFERER', '/'))
-
+        
+# TODO: Crear vista para cambiar / crear user.config para dark_mode mediante fetch
