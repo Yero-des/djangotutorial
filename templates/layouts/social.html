@@ -2,16 +2,17 @@
 {% load static %}
 
 {% block styles %}
-  <link rel="stylesheet" href="{% static 'facebook/css/facebook_styles.css' %}" />
+  {% block app_styles %}{% endblock app_styles %}
+  <link rel="stylesheet" href="{% static 'css/layouts/social.css' %}" />
 {% endblock %}
 
 {% block content %}
   <main class="d-flex flex-nowrap">
-    {% include './sidebar.html' with active=current_view %}
+    {% include 'components/social/sidebar.html' with active=current_view %}
 
     <section class="overflow-y-auto w-100">
       <div class="container mt-5">
-        {% block page_content %}
+        {% block app_content %}
 
         {% endblock %}
       </div>
@@ -40,10 +41,10 @@
 {% endblock %}
 
 {% block scripts %}
-  {% block facebook_scripts %}
+  {% block app_scripts %}
 
   {% endblock %}
 
-  <script src="{% static 'facebook/js/sidebar.js' %}"></script>
-  <script src="{% static 'facebook/js/appGeneral.js' %}"></script>
+  <script src="{% static 'js/components/sidebar.js' %}"></script>
+  <script src="{% static 'js/layouts/social.js' %}"></script>
 {% endblock %}

@@ -1,11 +1,15 @@
-{% extends 'facebook/includes/base_content.html' %}
+{% extends 'layouts/social.html' %}
 {% load static %}
 
 {% block title %}
   Perfil
 {% endblock %}
 
-{% block page_content %}
+{% block app_styles %}
+  <link rel="stylesheet" href="{% static 'facebook/css/profile.css' %}">
+{% endblock app_styles %}
+
+{% block app_content %}
   <h1>Perfil</h1>
   <hr />
 
@@ -29,13 +33,16 @@
 
     {% comment %}Formulario datos de usuario{% endcomment %}
     <div class="col col-md-6">
-      {% include './includes/profile_form.html' with form=form %}
+      {% include 'facebook/components/profile_form.html' with form=form %}
     </div>
   </div>
 
-  {% include './includes/show_posts.html' with posts=posts_user style='my-4' %}
+  <hr>
+  <h2>Mis publicaciones</h2>
+  {% include 'facebook/components/show_posts.html' with posts=posts_user style='my-4' %}
+
 {% endblock %}
 
-{% block facebook_scripts %}
+{% block app_scripts %}
   <script src="{% static 'facebook/js/profile.js' %}"></script>
 {% endblock %}

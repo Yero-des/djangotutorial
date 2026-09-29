@@ -1,11 +1,15 @@
-{% extends 'facebook/includes/base_content.html' %}
+{% extends 'layouts/social.html' %}
 {% load static %}
 
 {% block title %}
   {{ user }}
 {% endblock %}
 
-{% block page_content %}
+{% block app_styles %}
+  <link rel="stylesheet" href="{% static 'facebook/css/detail_user.css' %}">
+{% endblock app_styles %}
+
+{% block app_content %}
   <div class="row justify-content-center">
     <div class="col-auto">
       <div id="profile-icon" class="rounded-circle border border-primary border-2 overflow-hidden" width="50" height="50">
@@ -40,5 +44,5 @@
     </div>
   </div>
 
-  {% include './includes/show_posts.html' with posts=user_posts style='mt-5' %}
+  {% include 'facebook/components/show_posts.html' with posts=user_posts style='mt-5' %}
 {% endblock %}

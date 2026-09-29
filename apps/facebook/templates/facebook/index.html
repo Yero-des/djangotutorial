@@ -1,14 +1,14 @@
-{% extends 'facebook/includes/base_content.html' %}
+{% extends 'layouts/social.html' %}
 
 {% block title %}
   Facebook
 {% endblock %}
 
-{% block page_content %}
+{% block app_content %}
 
   <h1>Publicaciones</h1>
   <hr>  
   
-  {% include './includes/show_posts.html' with posts=posts %}
+  {% include 'facebook/components/show_posts.html' with posts=posts %}
 
 {% endblock %}

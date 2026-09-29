@@ -3,7 +3,7 @@ from .models import Post
 from django.contrib.auth import get_user_model
 
 BAD_WORDS = [
-    'idiota', 'cabron', 'csm', 'tarado', 'gilipollas', 'imbecil', 'retrasado', 'hijo de'
+    'idiota', 'cabron', 'csm', 'tarado', 'gilipollas', 'imbecil', 'retrasado', 'hijo de', 'mierda', 'carajo', 'cagada', 
 ]
 
 User = get_user_model()

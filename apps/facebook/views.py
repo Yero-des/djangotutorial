@@ -108,4 +108,4 @@ class FollowView(LoginRequiredMixin, View):
             messages.success(self.request, f'Se comenzo a seguir a "{user_to_follow}"', extra_tags='primary')
             
         return redirect(request.META.get('HTTP_REFERER', '/'))
-    
+
