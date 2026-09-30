@@ -8,6 +8,9 @@ BAD_WORDS = [
 
 User = get_user_model()
 
+def has_more_two_words(chain):
+    return len(chain.split()) > 2
+
 class BootstrapModelForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
@@ -32,7 +35,7 @@ class PostForm(BootstrapModelForm):
         error_messages = {
             'title': {
                 'required': 'El campo es requerido.',
-                'max_length': 'El titulo es demasiado largo'
+                'max_length': 'El titulo es demasiado largo.'
             },
             'content': {
                 'required': 'El campo es requerido.'
@@ -53,7 +56,7 @@ class PostForm(BootstrapModelForm):
         
         for word in BAD_WORDS:
             if word in title.lower():
-                raise forms.ValidationError('Trata de ser respetuoso')                
+                raise forms.ValidationError('Trata de ser respetuoso.')                
 
         return title
     
@@ -62,7 +65,7 @@ class PostForm(BootstrapModelForm):
         
         for word in BAD_WORDS:
             if word in content.lower():
-                raise forms.ValidationError('Trata de ser respetuoso')
+                raise forms.ValidationError('Trata de ser respetuoso.')
             
         return content
     
@@ -80,3 +83,19 @@ class UserForm(BootstrapModelForm):
                 'class': 'form-control', 'hidden': ''
             })
         }
+        
+    def clean_first_name(self):
+        first_name = self.cleaned_data['first_name']
+        
+        if has_more_two_words(first_name):
+            raise forms.ValidationError('Solo puedes tener maximo 2 nombres.')
+        
+        return first_name
+        
+    def clean_last_name(self):
+        last_name = self.cleaned_data['last_name']
+        
+        if has_more_two_words(last_name):
+            raise forms.ValidationError('Solo puedes tener maximo 2 apellidos.')
+        
+        return last_name
