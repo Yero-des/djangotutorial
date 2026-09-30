@@ -6,6 +6,7 @@ from django.contrib.auth import get_user_model
 from ..models import Post, Follow
 from django.contrib import messages
 from ..forms import UserForm
+from django.http import JsonResponse
 
 User = get_user_model()
 
@@ -74,8 +75,27 @@ class FollowView(LoginRequiredMixin, View):
                 following_user=request.user,
                 followed_user=user_to_follow
             )
+            messages.success(self.request, f'Se comenzo a seguir a "{user_to_follow}"')
             
         return redirect(request.META.get('HTTP_REFERER', '/'))
         
         
-# TODO: Crear vista para cambiar / crear user.config para dark_mode mediante fetch
+class DarkModeView(LoginRequiredMixin, View):
+    
+    def post(self, request):
+        
+        try:
+            
+            config = request.user.config
+            config.dark_mode = not config.dark_mode       
+            config.save()        
+            
+            return JsonResponse({
+                'status': 'ok'
+            })
+                
+        except Exception as e:
+            return JsonResponse({
+                'status': 'error',
+                'messages': str(e),
+            }, status=400)

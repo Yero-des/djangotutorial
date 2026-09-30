@@ -2,8 +2,17 @@
 {% load static %}
 
 {% block styles %}
-  {% block app_styles %}{% endblock app_styles %}
+  {% block app_styles %}
+  {% endblock %}
   <link rel="stylesheet" href="{% static 'css/layouts/social.css' %}" />
+{% endblock %}
+
+{% block html %}
+  {% if request.user.config.dark_mode %}
+    data-bs-theme="dark"
+  {% else %}
+    data-bs-theme="light"
+  {% endif %}
 {% endblock %}
 
 {% block content %}

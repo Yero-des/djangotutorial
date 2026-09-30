@@ -6,8 +6,8 @@
 {% endblock %}
 
 {% block app_styles %}
-  <link rel="stylesheet" href="{% static 'facebook/css/profile.css' %}">
-{% endblock app_styles %}
+  <link rel="stylesheet" href="{% static 'facebook/css/profile.css' %}" />
+{% endblock %}
 
 {% block app_content %}
   <h1>Perfil</h1>
@@ -21,12 +21,11 @@
           <button id="profile-button-photo" class="rounded-circle border border-secondary border-2 overflow-hidden"><img id="profile-preview-photo" src="{{ request.user.photo_url }}" class="object-fit-cover h-100 w-100" alt="Imagen actual del usuario {{ request.user.username }}" /></button>
         </div>
       </div>
-      {% comment %} Modo oscuro {% endcomment %}
+      {% comment %}Modo oscuro{% endcomment %}
       <div class="row justify-content-center mt-3">
         <div class="col-auto form-check form-switch">
-          <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault" />
-          {% comment %} TODO: Implementar funcionalidad de modo oscuro {% endcomment %}
-          <label class="form-check-label" for="switchCheckDefault">Modo oscuro</label>
+          <input id="dark-mode-toggle" class="form-check-input" type="checkbox" role="switch" {{ request.user.config.dark_mode|yesno:'checked,' }} data-url="{% url 'facebook:dark-mode' %}" data-csrf="{{ csrf_token }}"/>
+          <label class="form-check-label" for="dark-mode-toggle">Modo oscuro</label>
         </div>
       </div>
     </div>
@@ -37,10 +36,9 @@
     </div>
   </div>
 
-  <hr>
+  <hr />
   <h2>Mis publicaciones</h2>
   {% include 'facebook/components/show_posts.html' with posts=posts_user style='my-4' %}
-
 {% endblock %}
 
 {% block app_scripts %}
