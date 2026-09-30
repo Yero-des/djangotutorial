@@ -5,6 +5,8 @@ from ..models import Post
 from ..forms import PostForm
 from ..forms import PostForm
 
+# TODO: Implementar funcion para eliminar / modificar nuestras propios post
+
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
     form_class = PostForm

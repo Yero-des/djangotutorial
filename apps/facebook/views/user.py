@@ -1,4 +1,4 @@
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 from django.views.generic import DetailView, View, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -26,8 +26,6 @@ class UserDetailView(DetailView):
         ).exists()        
         
         return context
-    
-    # TODO: Implementar funcion para eliminar / modificar nuestras propios post
 
 class UserUpdateView(UpdateView):
     model = User
@@ -76,6 +74,8 @@ class FollowView(LoginRequiredMixin, View):
                 following_user=request.user,
                 followed_user=user_to_follow
             )
+            
+        return redirect(request.META.get('HTTP_REFERER', '/'))
         
         
 # TODO: Crear vista para cambiar / crear user.config para dark_mode mediante fetch
