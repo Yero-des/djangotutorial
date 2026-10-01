@@ -17,6 +17,7 @@ photoInput.addEventListener('change', () => {
 
 // Modo estado de modo oscuro
 const darkModeToggle = document.getElementById('dark-mode-toggle')
+const darkModeLabel = document.getElementById('dark-mode-label')
 const url = darkModeToggle.dataset.url
 const csrfToken = darkModeToggle.dataset.csrf
 
@@ -26,6 +27,12 @@ darkModeToggle.addEventListener('change', function () {
         'data-bs-theme',
         this.checked ? 'dark' : 'light'
     );
+
+    const darkModeIcon = darkModeLabel.firstElementChild
+
+    darkModeIcon.classList.remove('bi-moon-stars', 'bi-moon-stars-fill')
+    const toggleClass = `bi-moon-stars${ this.checked ? '-fill' : ''}`
+    darkModeIcon.classList.add(toggleClass)
 
     fetch(url, {
         method: 'POST',
