@@ -14,9 +14,9 @@
   <div class="d-flex align-items-start gap-3">
     <h1>Perfil</h1>
     {% comment %} Modo oscuro {% endcomment %}
-    <div class="d-flex form-check form-switch gap-3 align-items-center">
-      <input id="dark-mode-toggle" class="form-check-input" type="checkbox" role="switch" {{ request.user.config.dark_mode|yesno:'checked,' }} data-url="{% url 'facebook:dark-mode' %}" data-csrf="{{ csrf_token }}" />
-      <label id="dark-mode-label" class="form-check-label" for="dark-mode-toggle" title="Activar modo oscuro"><i class="bi bi-moon-stars{{ request.user.config.dark_mode|yesno:'-fill,' }} fs-5"></i></label>
+    <div class="d-flex form-check form-switch gap-2 align-items-center">
+      <input id="dark-mode-toggle" class="form-check-input my-auto" type="checkbox" role="switch" {{ request.user.config.dark_mode|yesno:'checked,' }} data-url="{% url 'facebook:dark-mode' %}" data-csrf="{{ csrf_token }}" />
+      <label id="dark-mode-label" class="form-check-label" for="dark-mode-toggle" title="Activar modo oscuro"><i class="bi bi-moon-stars{{ request.user.config.dark_mode|yesno:'-fill,' }} fs-6"></i></label>
     </div>
   </div>
   <hr />
