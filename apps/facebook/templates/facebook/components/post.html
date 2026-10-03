@@ -1,13 +1,13 @@
 {% load static %}
 
 <div class="col d-flex">
-  <div class="card p-0">
-    {% comment %}TODO: Implementar vista de post por un modal{% endcomment %}
+  {% comment %}TODO: Implementar vista de post por un modal{% endcomment %}
+  <div class="card p-0 card-post">
     <div class="row g-0 h-100">
       <div class="col-md-4">
         <div class="img-post-container h-100 position-relative">
           {% if not is_user_detail %}
-            <a href="{% url 'facebook:detail-user' pk=post.user.id %}" class="img-post-profile position-absolute bottom-0 start-0 d-flex align-items-center justify-content-center p-3 text-decoration-none" title="{{ post.user.username }}">
+            <a href="{% url 'facebook:detail-user' pk=post.user.id %}" onclick="event.stopPropagation()" class="img-post-profile position-absolute bottom-0 start-0 d-flex align-items-center justify-content-center p-3 text-decoration-none" title="{{ post.user.username }}">
               <div class="position-relative">
                 <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                   <i class="bi bi-person"></i> {{ post.user.quantity_followers }}
@@ -21,20 +21,26 @@
         </div>
       </div>
       <div class="col-md-8">
-        <div class="card-body">
-          <h5 class="card-title">{{ post.title }}</h5>
-          <p class="card-text">{{ post.content }}</p>
+        <div class="card-body container-fluid">
+          <h5 class="card-title" title="{{ post.title }}" role="button" data-bs-toggle="modal" data-bs-target="#postModal-{{ post.id }}">{{ post.title }}</h5>
+          <p class="card-text card-content">{{ post.content }}</p>
           <p class="m-0">
-            <button id="btn-like-post-{{ post.id }}" data-url="{% url 'facebook:like-post' post.id %}" data-csrf="{{ csrf_token }}" onclick="likePost(this)" class="btn p-0 btn-like-inner-post {% if post.is_liked %}liked{% endif %}">
+            <button id="btn-like-post-{{ post.id }}" data-url="{% url 'facebook:like-post' post.id %}" data-csrf="{{ csrf_token }}" onclick="event.stopPropagation(); likePost(this)" class="btn p-0 btn-like-inner-post {% if post.is_liked %}liked{% endif %}">
               <i class="bi bi-hand-thumbs-up"></i>
               <span>{{ post.quantity_likes }}</span>
             </button>
           </p>
-          <p class="card-text">
+          <p class="card-text col-auto">
             <small class="text-body-secondary"><time datetime="{{ post.created_at|date:'c' }}">{{ post.created_at|date:'d/m/Y H:i' }}</time></small>
           </p>
+          {% if request.resolver_match.view_name == 'facebook:profile' %}
+            {% include './actions_post.html' with post=post %}
+          {% endif %}
         </div>
       </div>
     </div>
   </div>
 </div>
+
+{% comment %}Modal de publicacion{% endcomment %}
+{% include './modal_post.html' with post=post %}

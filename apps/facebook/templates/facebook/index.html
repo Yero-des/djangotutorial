@@ -5,10 +5,8 @@
 {% endblock %}
 
 {% block app_content %}
-
   <h1>Publicaciones</h1>
-  <hr>  
-  
-  {% include 'facebook/components/show_posts.html' with posts=posts %}
+  <hr />
 
+  {% include 'facebook/components/show_posts.html' with posts=posts style='my-4' %}
 {% endblock %}

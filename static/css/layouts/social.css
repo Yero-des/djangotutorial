@@ -16,6 +16,31 @@ main {
 	overflow-y: hidden;
 }
 
+/* Custom card post */
+.card-post .card-title {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.card-post .card-content {
+	display: -webkit-box;
+	line-clamp: 3;
+	-webkit-line-clamp: 3;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	line-height: 1.5em; /* Define la altura de cada línea (ej. 1.5 veces el tamaño de la letra) */
+	height: 4.5em;
+}
+
+.post-options .edit-post:hover {
+	color: var(--bs-warning);
+}
+
+.post-options .delete-post:hover {
+	color: var(--bs-danger);
+}
+
 .dropdown-toggle {
 	outline: 0;
 }

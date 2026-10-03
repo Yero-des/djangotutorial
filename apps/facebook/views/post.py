@@ -1,15 +1,15 @@
 import json
 
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import JsonResponse
-from django.shortcuts import get_object_or_404
-from django.urls import reverse_lazy
-from django.views.generic import CreateView, View
+from django.http import HttpResponseRedirect, JsonResponse
+from django.shortcuts import get_object_or_404, redirect
+from django.urls import reverse, reverse_lazy
+from django.views.generic import CreateView, DeleteView, UpdateView, View
 
 from ..forms import PostForm
 from ..models import Like, Post
 
-# TODO: Implementar funcion para eliminar / modificar nuestras propios post
+# TODO: Implementar funcion para modificar / confirmación de eliminación
 
 
 class PostCreateView(LoginRequiredMixin, CreateView):
@@ -27,6 +27,21 @@ class PostCreateView(LoginRequiredMixin, CreateView):
         context = super().get_context_data(**kwargs)
         context["current_view"] = "create-post"
         return context
+
+
+class PostDeleteView(LoginRequiredMixin, View):
+
+    def post(self, request, pk):
+
+        post = get_object_or_404(Post, pk=pk, user=request.user)
+
+        post.delete()
+
+        return redirect("facebook:profile", username=request.user.username)
+
+
+class PostUpdateView(LoginRequiredMixin, UpdateView):
+    pass
 
 
 class LikePostView(LoginRequiredMixin, View):
