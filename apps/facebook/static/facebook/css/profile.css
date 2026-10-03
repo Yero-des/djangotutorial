@@ -1,45 +1,44 @@
-
 #profile-button-photo {
-  width: 100%;
-  aspect-ratio: 1;
-  padding: 0;
-  position: relative;
-  cursor: pointer;
+	width: 100%;
+	aspect-ratio: 1;
+	padding: 0;
+	position: relative;
+	cursor: pointer;
 }
 
 #profile-button-photo img {
-  display: block;
-  transition: filter 0.3s ease;
+	display: block;
+	transition: filter 0.3s ease;
 }
 
 #profile-button-photo::after {
-  content: "\F4CA";
-  font-family: "bootstrap-icons";
+	content: "\F4CA";
+	font-family: "bootstrap-icons";
 
-  position: absolute;
-  inset: 0;
+	position: absolute;
+	inset: 0;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 
-  color: white;
-  font-size: 2rem;
+	color: white;
+	font-size: 2rem;
 
-  background: rgba(0, 0, 0, 0.45);
+	background: rgba(0, 0, 0, 0.45);
 
-  opacity: 0;
-  color: var(--bs-warning);
+	opacity: 0;
+	color: var(--bs-warning);
 
-  transition:
-    opacity 0.3s ease,
-    transform 0.3s ease;
+	transition:
+		opacity 0.3s ease,
+		transform 0.3s ease;
 }
 
 #profile-button-photo:hover img {
-  filter: brightness(50%);
+	filter: brightness(50%);
 }
 
 #profile-button-photo:hover::after {
-  opacity: 1;
+	opacity: 1;
 }

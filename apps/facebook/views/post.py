@@ -1,24 +1,55 @@
-from django.urls import reverse_lazy
-from django.views.generic import CreateView
+import json
+
 from django.contrib.auth.mixins import LoginRequiredMixin
-from ..models import Post
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
+from django.urls import reverse_lazy
+from django.views.generic import CreateView, View
+
 from ..forms import PostForm
-from ..forms import PostForm
+from ..models import Like, Post
 
 # TODO: Implementar funcion para eliminar / modificar nuestras propios post
+
 
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
     form_class = PostForm
-    success_url = reverse_lazy('facebook:index')
-    template_name = 'facebook/create_post.html'
-    
+    success_url = reverse_lazy("facebook:index")
+    template_name = "facebook/create_post.html"
+
     def form_valid(self, form):
         form.instance.user = self.request.user
-        form.instance.status = 'active'
+        form.instance.status = "active"
         return super().form_valid(form)
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["current_view"] = 'create-post'
+        context["current_view"] = "create-post"
         return context
+
+
+class LikePostView(LoginRequiredMixin, View):
+
+    def post(self, request, post_id, *args, **kwargs):
+
+        post = get_object_or_404(Post, id=post_id)
+        like = Like.objects.filter(liked_post=post, user_like=request.user)
+        liked = True
+
+        if like.exists():
+            like.delete()
+            liked = not liked
+        else:
+            Like.objects.create(
+                liked_post=post, user_like=request.user, reaction="like"
+            )
+
+        return JsonResponse(
+            {
+                "status": "ok",
+                "post": post.id,
+                "user": request.user.username,
+                "liked": liked,
+            }
+        )
