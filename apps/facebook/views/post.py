@@ -9,8 +9,6 @@ from django.views.generic import CreateView, DeleteView, UpdateView, View
 from ..forms import PostForm
 from ..models import Like, Post
 
-# TODO: Implementar funcion para modificar / confirmación de eliminación
-
 
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
@@ -34,14 +32,28 @@ class PostDeleteView(LoginRequiredMixin, View):
     def post(self, request, pk):
 
         post = get_object_or_404(Post, pk=pk, user=request.user)
-
         post.delete()
 
         return redirect("facebook:profile", username=request.user.username)
 
 
 class PostUpdateView(LoginRequiredMixin, UpdateView):
-    pass
+    model = Post
+    form_class = PostForm
+    template_name = "facebook/create_post.html"
+
+    def get_success_url(self):
+        return reverse(
+            "facebook:profile", kwargs={"username": self.request.user.username}
+        )
+
+    def get_queryset(self):
+        return super().get_queryset().filter(user=self.request.user)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["current_view"] = "edit-post"
+        return context
 
 
 class LikePostView(LoginRequiredMixin, View):

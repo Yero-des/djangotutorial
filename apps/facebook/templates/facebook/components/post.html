@@ -1,7 +1,6 @@
 {% load static %}
 
 <div class="col d-flex">
-  {% comment %}TODO: Implementar vista de post por un modal{% endcomment %}
   <div class="card p-0 card-post">
     <div class="row g-0 h-100">
       <div class="col-md-4">
@@ -34,7 +33,7 @@
             <small class="text-body-secondary"><time datetime="{{ post.created_at|date:'c' }}">{{ post.created_at|date:'d/m/Y H:i' }}</time></small>
           </p>
           {% if request.resolver_match.view_name == 'facebook:profile' %}
-            {% include './actions_post.html' with post=post %}
+            {% include './post/actions_post.html' with post=post %}
           {% endif %}
         </div>
       </div>
@@ -43,4 +42,4 @@
 </div>
 
 {% comment %}Modal de publicacion{% endcomment %}
-{% include './modal_post.html' with post=post %}
+{% include './post/modal_post.html' with post=post %}

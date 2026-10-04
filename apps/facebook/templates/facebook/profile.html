@@ -7,6 +7,7 @@
 
 {% block app_styles %}
   <link rel="stylesheet" href="{% static 'facebook/css/profile.css' %}" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bootstrap-5@5/bootstrap-5.min.css" />
 {% endblock %}
 
 {% block app_content %}
@@ -40,9 +41,13 @@
   <hr />
 
   <h2>Mis publicaciones</h2>
+  {% comment %}TODO: Añadir atajo para agregar publicaciones (icono + href){% endcomment %}
+  {% comment %}TODO: Implementar funcionalidad para ocultar publicaciones{% endcomment %}
   {% include 'facebook/components/show_posts.html' with posts=posts_user style='my-4' %}
 {% endblock %}
 
 {% block app_scripts %}
   <script src="{% static 'facebook/js/profile.js' %}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="{% static 'facebook/js/profile/actions_post.js' %}"></script>
 {% endblock %}

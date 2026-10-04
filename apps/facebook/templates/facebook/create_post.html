@@ -1,11 +1,21 @@
 {% extends 'layouts/social.html' %}
 
 {% block title %}
-  Crear Publicación
+  {% if current_view == 'edit-post' %}
+    Editar Publicación
+  {% else %}
+    Crear Publicación
+  {% endif %}
 {% endblock %}
 
 {% block app_content %}
-  <h1>Crear publicación</h1>
+  <h1>
+    {% if current_view == 'edit-post' %}
+      Editar publicación
+    {% else %}
+      Crear publicación
+    {% endif %}
+  </h1>
   <hr />
 
   <div class="row">
@@ -27,7 +37,18 @@
           </div>
         {% endfor %}
 
-        <button class="btn btn-success" type="submit">Crear publicación</button>
+        <button class="btn {% if current_view == 'edit-post' %}
+            btn-warning
+          {% else %}
+            btn-success
+          {% endif %}"
+          type="submit">
+          {% if current_view == 'edit-post' %}
+            Guardar cambios
+          {% else %}
+            Crear publicación
+          {% endif %}
+        </button>
       </form>
     </div>
   </div>

@@ -13,6 +13,7 @@ class PostQuerySet(models.QuerySet):
         )
 
 
+# TODO: Actualizar post para que se acepten imagenes que se mostraran en las vistas
 class Post(models.Model):
 
     STATUS = {"active": "Active", "deleted": "Deleted", "hidden": "Hidden"}

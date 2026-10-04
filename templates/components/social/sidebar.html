@@ -12,6 +12,7 @@
       <a href="{% url 'facebook:create-post' %}" class="nav-link {% if active == 'create-post' %}active{% endif %} py-3 border-bottom border-secondary rounded-0" title="Publicaciones" data-bs-toggle="tooltip" data-bs-placement="right"><i class="bi bi-window-plus" width="24" height="24" role="img" aria-label="Publicaciones"></i></a>
     </li>
     <li>
+      {% comment %}TODO: Implementar vista para listar a todos los usuarios{% endcomment %}
       <a href="#" class="nav-link {% if active == 'users' %}active{% endif %} py-3 border-bottom border-secondary rounded-0" title="Usuarios" data-bs-toggle="tooltip" data-bs-placement="right"><i class="bi bi-person-circle" width="24" height="24" role="img" aria-label="Usuarios"></i></a>
     </li>
   </ul>
