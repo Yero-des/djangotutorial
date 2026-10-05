@@ -2,31 +2,27 @@
 
 from django.db import migrations, models
 
+
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('facebook', '0003_alter_post_user'),
+        ("facebook", "0003_alter_post_user"),
     ]
 
     operations = [
         migrations.RenameField(
-            model_name='post',
-            old_name='body',
-            new_name='content',
+            model_name="post",
+            old_name="body",
+            new_name="content",
         ),
         migrations.AlterField(
-            model_name='post',
-            name='content',
-            field=models.TextField(
-                verbose_name='Contenido'
-            ),
+            model_name="post",
+            name="content",
+            field=models.TextField(verbose_name="Contenido"),
         ),
         migrations.AlterField(
-            model_name='post',
-            name='title',
-            field=models.CharField(
-                max_length=100,
-                verbose_name='Título'
-            ),
+            model_name="post",
+            name="title",
+            field=models.CharField(max_length=100, verbose_name="Título"),
         ),
     ]

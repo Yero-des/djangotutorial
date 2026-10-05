@@ -7,7 +7,7 @@ from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, DeleteView, UpdateView, View
 
 from ..forms import PostForm
-from ..models import Like, Post
+from ..models import Post, PostLike
 
 
 class PostCreateView(LoginRequiredMixin, CreateView):
@@ -61,14 +61,14 @@ class LikePostView(LoginRequiredMixin, View):
     def post(self, request, post_id, *args, **kwargs):
 
         post = get_object_or_404(Post, id=post_id)
-        like = Like.objects.filter(liked_post=post, user_like=request.user)
+        like = PostLike.objects.filter(liked_post=post, user_like=request.user)
         liked = True
 
         if like.exists():
             like.delete()
             liked = not liked
         else:
-            Like.objects.create(
+            PostLike.objects.create(
                 liked_post=post, user_like=request.user, reaction="like"
             )
 
