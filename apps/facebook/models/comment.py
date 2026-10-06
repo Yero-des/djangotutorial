@@ -8,7 +8,7 @@ from .post import Post
 
 class PostQuerySet(models.QuerySet):
 
-    def for_user(self, user):
+    def for_content(self, user):
         return self.annotate(
             is_liked=Exists(
                 CommentLike.objects.filter(liked_post=OuterRef("pk"), user_like=user)

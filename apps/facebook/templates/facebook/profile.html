@@ -16,8 +16,8 @@
     <h1>Perfil</h1>
     {% comment %}Modo oscuro{% endcomment %}
     <div class="d-flex form-check form-switch gap-2 align-items-center">
-      <input id="dark-mode-toggle" class="form-check-input my-auto" type="checkbox" role="switch" {{ request.user.config.dark_mode|yesno:'checked,' }} data-url="{% url 'facebook:dark-mode' %}" data-csrf="{{ csrf_token }}" />
-      <label id="dark-mode-label" class="form-check-label" for="dark-mode-toggle" title="Activar modo oscuro"><i class="bi bi-moon-stars{{ request.user.config.dark_mode|yesno:'-fill,' }} fs-6"></i></label>
+      <input id="dark-mode-toggle" class="form-check-input my-auto" type="checkbox" role="switch" {{ user.config.dark_mode|yesno:'checked,' }} data-url="{% url 'facebook:dark-mode' %}" data-csrf="{{ csrf_token }}" />
+      <label id="dark-mode-label" class="form-check-label" for="dark-mode-toggle" title="Activar modo oscuro"><i class="bi bi-moon-stars{{ user.config.dark_mode|yesno:'-fill,' }} fs-6"></i></label>
     </div>
   </div>
   <hr />
@@ -27,7 +27,7 @@
       {% comment %}Circulo perfil (editar foto de perfil){% endcomment %}
       <div class="row justify-content-center align-items-start">
         <div class="col-6 col-md-12">
-          <button id="profile-button-photo" class="rounded-circle border border-secondary border-2 overflow-hidden"><img id="profile-preview-photo" src="{{ request.user.photo_url }}" class="object-fit-cover h-100 w-100" alt="Imagen actual del usuario {{ request.user.username }}" /></button>
+          <button id="profile-button-photo" class="rounded-circle border border-secondary border-2 overflow-hidden"><img id="profile-preview-photo" src="{{ user.photo_url }}" class="object-fit-cover h-100 w-100" alt="Imagen actual del usuario {{ user.username }}" /></button>
         </div>
       </div>
     </div>

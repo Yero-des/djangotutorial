@@ -38,13 +38,9 @@
         {% endfor %}
 
         <button class="btn {% if current_view == 'edit-post' %}
-            
-            btn-warning
-
+             btn-warning
           {% else %}
-            
             btn-success
-
           {% endif %}"
           type="submit">
           {% if current_view == 'edit-post' %}

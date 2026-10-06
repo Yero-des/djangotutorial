@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.db import models
-from django.db.models import Exists, OuterRef
+from django.db.models import Count, Exists, OuterRef
 from django.templatetags.static import static
 
 from .common import CommonContent, CommonLike
@@ -8,11 +8,17 @@ from .common import CommonContent, CommonLike
 
 class PostQuerySet(models.QuerySet):
 
-    def for_user(self, user):
-        return self.annotate(
-            is_liked=Exists(
-                PostLike.objects.filter(liked_post=OuterRef("pk"), user_like=user)
+    def for_content(self, user):
+        return (
+            self.annotate(
+                is_liked=Exists(
+                    PostLike.objects.filter(liked_post=OuterRef("pk"), user_like=user)
+                ),
+                followers_count=Count("user__followers", distinct=True),
+                likes_count=Count("likes", distinct=True),
             )
+            .select_related("user")
+            .prefetch_related("comments__user")
         )
 
 

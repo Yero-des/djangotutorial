@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Count
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
@@ -17,23 +18,15 @@ class UserDetailView(DetailView):
     context_object_name = "user"
     template_name = "facebook/detail_user.html"
 
+    def get_queryset(self):
+        return super().get_queryset().for_stats(self.request.user)
+
     def get_context_data(self, **kwargs):
 
         context = super().get_context_data(**kwargs)
-        context["user_posts"] = (
-            self.object.posts.for_user(self.request.user)
-            .select_related("user")
-            .prefetch_related(
-                "comments__user",
-                "likes",
-            )
-        )
+        context["user_posts"] = self.object.posts.for_content(self.request.user)
         context["is_user_detail"] = True
         context["current_view"] = "users"
-        context["is_following"] = Follow.objects.filter(
-            followed_user=self.object,
-            following_user=self.request.user,
-        ).exists()
 
         return context
 
@@ -61,14 +54,7 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["posts_user"] = (
-            self.object.posts.for_user(self.request.user)
-            .select_related("user")
-            .prefetch_related(
-                "comments__user",
-                "likes",
-            )
-        )
+        context["posts_user"] = self.object.posts.for_content(self.request.user)
 
         return context
 

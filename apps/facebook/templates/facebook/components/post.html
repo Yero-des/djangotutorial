@@ -9,7 +9,7 @@
             <a href="{% url 'facebook:detail-user' pk=post.user.id %}" onclick="event.stopPropagation()" class="img-post-profile position-absolute bottom-0 start-0 d-flex align-items-center justify-content-center p-3 text-decoration-none" title="{{ post.user.username }}">
               <div class="position-relative">
                 <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                  <i class="bi bi-person"></i> {{ post.user.quantity_followers }}
+                  <i class="bi bi-person"></i> {{ post.followers_count }}
                   <span class="visually-hidden">Seguidores</span>
                 </span>
                 <img src="{{ post.user.photo_url }}" alt="mdo" width="50" height="50" class="rounded-circle object-fit-cover" />
@@ -26,7 +26,7 @@
           <p class="m-0">
             <button id="btn-like-post-{{ post.id }}" data-url="{% url 'facebook:like-post' post.id %}" data-csrf="{{ csrf_token }}" onclick="event.stopPropagation(); likePost(this)" class="btn p-0 btn-like-inner-post {% if post.is_liked %}liked{% endif %}">
               <i class="bi bi-hand-thumbs-up"></i>
-              <span>{{ post.quantity_likes }}</span>
+              <span>{{ post.likes_count }}</span>
             </button>
           </p>
           <p class="card-text col-auto">
