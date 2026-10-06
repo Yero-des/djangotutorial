@@ -1,6 +1,6 @@
 {% load static %}
 
-<div class="col d-flex">
+<div class="col">
   <div class="card p-0 card-post">
     <div class="row g-0 h-100">
       <div class="col-md-4">
@@ -12,11 +12,24 @@
                   <i class="bi bi-person"></i> {{ post.followers_count }}
                   <span class="visually-hidden">Seguidores</span>
                 </span>
-                <img src="{{ post.user.photo_url }}" alt="mdo" width="50" height="50" class="rounded-circle object-fit-cover" />
+
+                {% if post.user.photo %}
+                  <img src="{{ post.user.photo.url }}" alt="mdo" class="img-user-post rounded-circle object-fit-cover" />
+                {% else %}
+                  <div class="img-user-post bg-body-tertiary d-flex justify-content-center align-items-center rounded-circle text-decoration-none border text-body">
+                    <i class="bi bi-person"></i>
+                  </div>
+                {% endif %}
               </div>
             </a>
           {% endif %}
-          <img src="{{ post.image_url }}" class="img-fluid rounded-start w-100 h-100 object-fit-cover" alt="Card title" />
+          {% if post.image %}
+            <img src="{{ post.image.url }}" class="img-fluid rounded-start w-100 h-100 object-fit-cover" alt="Card title" />
+          {% else %}
+            <div class="rounded-start w-100 h-100 bg-body-secondary d-flex justify-content-center align-items-center">
+              <i class="bi bi-image"></i>
+            </div>
+          {% endif %}
         </div>
       </div>
       <div class="col-md-8">

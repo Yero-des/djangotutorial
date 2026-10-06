@@ -35,13 +35,6 @@ class User(AbstractUser):
     objects = UserManager()
 
     @property
-    def photo_url(self):
-        if self.photo:
-            return self.photo.url
-
-        return static("facebook/img/anonymous_user.webp")
-
-    @property
     def quantity_followers(self):
         return self.followers.count()
 

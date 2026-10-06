@@ -18,6 +18,7 @@
   </h1>
   <hr />
 
+  {% comment %}Actualizar la vista para crear / editar{% endcomment %}
   <div class="row">
     <div class="col col-md-6">
       <form method="post" enctype="multipart/form-data">
@@ -38,9 +39,13 @@
         {% endfor %}
 
         <button class="btn {% if current_view == 'edit-post' %}
+            
              btn-warning
+
           {% else %}
+            
             btn-success
+
           {% endif %}"
           type="submit">
           {% if current_view == 'edit-post' %}
