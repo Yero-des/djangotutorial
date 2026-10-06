@@ -30,7 +30,7 @@ def create_generic_posts(user, posts_quantity):
 
     for i in range(posts_quantity):
         post = Post.objects.create(
-            title=f"generic{i}", content="new post", user=user, status="active"
+            title=f"generic{i}", description="new post", user=user, status="active"
         )
         posts.append(post)
 

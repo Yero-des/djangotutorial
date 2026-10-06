@@ -1,4 +1,3 @@
-# from .comment import Comment, LikeComment
-from .common import CommonContent, CommonLike
+from .comment import Comment, CommentLike
 from .follow import Follow
 from .post import Post, PostLike

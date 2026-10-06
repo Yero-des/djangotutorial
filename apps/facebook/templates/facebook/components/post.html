@@ -16,13 +16,13 @@
               </div>
             </a>
           {% endif %}
-          <img src="{% static 'facebook/img/post_img_default.webp' %}" class="img-fluid rounded-start w-100 h-100 object-fit-cover" alt="Card title" />
+          <img src="{{ post.image_url }}" class="img-fluid rounded-start w-100 h-100 object-fit-cover" alt="Card title" />
         </div>
       </div>
       <div class="col-md-8">
         <div class="card-body container-fluid">
           <h5 class="card-title" title="{{ post.title }}" role="button" data-bs-toggle="modal" data-bs-target="#postModal-{{ post.id }}">{{ post.title }}</h5>
-          <p class="card-text card-content">{{ post.content }}</p>
+          <p class="card-text card-content">{{ post.description }}</p>
           <p class="m-0">
             <button id="btn-like-post-{{ post.id }}" data-url="{% url 'facebook:like-post' post.id %}" data-csrf="{{ csrf_token }}" onclick="event.stopPropagation(); likePost(this)" class="btn p-0 btn-like-inner-post {% if post.is_liked %}liked{% endif %}">
               <i class="bi bi-hand-thumbs-up"></i>

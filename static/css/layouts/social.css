@@ -131,3 +131,20 @@ main {
 	list-style: inside;
 	padding: 0;
 }
+
+.comment-author-photo {
+	width: 40px;
+	height: 40px;
+	flex: 0 0 40px;
+}
+
+.comment-thumbnail {
+	width: 76px;
+	height: 76px;
+	flex: 0 0 76px;
+}
+
+.comment-color-strip {
+	height: 3px;
+	background: linear-gradient(90deg, #e85d75, #f4a261, #e9c46a, #2a9d8f, #457b9d, #8e6cba);
+}

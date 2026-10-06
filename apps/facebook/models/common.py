@@ -2,6 +2,11 @@ from django.conf import settings
 from django.db import models
 
 
+def content_image_path(instance, filename):
+    model_name = instance.__class__.__name__.lower()
+    return f"facebook/{model_name}s/{filename}"
+
+
 class CommonContent(models.Model):
 
     STATUS = {"active": "Active", "deleted": "Deleted", "hidden": "Hidden"}
@@ -14,10 +19,10 @@ class CommonContent(models.Model):
         related_query_name="%(app_label)s_%(class)ss",
     )
     title = models.CharField(max_length=100, verbose_name="Título")
-    content = models.TextField(verbose_name="Contenido")
+    description = models.TextField(verbose_name="Contenido")
     status = models.CharField(max_length=20, choices=STATUS)
     image = models.ImageField(
-        upload_to="facebook/%(class)ss", null=True, blank=True, verbose_name="Imagen"
+        upload_to=content_image_path, null=True, blank=True, verbose_name="Imagen"
     )
     created_at = models.DateTimeField(auto_now_add=True)
 

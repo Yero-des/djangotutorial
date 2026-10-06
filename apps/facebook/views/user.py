@@ -20,7 +20,14 @@ class UserDetailView(DetailView):
     def get_context_data(self, **kwargs):
 
         context = super().get_context_data(**kwargs)
-        context["user_posts"] = self.object.posts.for_user(self.request.user)
+        context["user_posts"] = (
+            self.object.posts.for_user(self.request.user)
+            .select_related("user")
+            .prefetch_related(
+                "comments__user",
+                "likes",
+            )
+        )
         context["is_user_detail"] = True
         context["current_view"] = "users"
         context["is_following"] = Follow.objects.filter(
@@ -54,7 +61,15 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["posts_user"] = self.object.posts.for_user(self.request.user)
+        context["posts_user"] = (
+            self.object.posts.for_user(self.request.user)
+            .select_related("user")
+            .prefetch_related(
+                "comments__user",
+                "likes",
+            )
+        )
+
         return context
 
 

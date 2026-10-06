@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.db import models
 from django.db.models import Exists, OuterRef
+from django.templatetags.static import static
 
 from .common import CommonContent, CommonLike
 
@@ -22,6 +23,13 @@ class Post(CommonContent):
     @property
     def quantity_likes(self):
         return self.likes.count()
+
+    @property
+    def image_url(self):
+        if self.image:
+            return self.image.url
+
+        return static("facebook/img/post_img_default.webp")
 
 
 class PostLike(CommonLike):
