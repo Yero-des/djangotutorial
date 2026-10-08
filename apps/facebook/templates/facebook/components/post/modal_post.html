@@ -10,7 +10,7 @@
       </div>
       <div class="modal-body p-0">
         {% if post.image %}
-          <div class="bg-body-tertiary">
+          <div class="bg-body-secondary">
             <img src="{{ post.image.url }}" alt="{{ post.title }}" class="img-fluid w-100 object-fit-contain rounded" style="height: 320px;" />
           </div>
         {% endif %}
@@ -31,7 +31,7 @@
           <h2 id="post-comments-title" class="h5 border-top pt-3 px-3 mb-0">Comentarios <span class="text-body-secondary fs-6">({{ post.comments_count }})</span></h2>
 
           {% for comment in post.comments.all %}
-            <div class="{% cycle '' 'bg-body-tertiary' %}">
+            <div class="{% cycle '' 'bg-body-tertiary border-bottom border-top' %}">
               {% include './comment_post.html' %}
             </div>
           {% empty %}
