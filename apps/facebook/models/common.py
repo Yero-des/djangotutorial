@@ -18,7 +18,6 @@ class CommonContent(models.Model):
         related_name="%(class)ss",
         related_query_name="%(app_label)s_%(class)ss",
     )
-    title = models.CharField(max_length=100, verbose_name="Título")
     description = models.TextField(verbose_name="Contenido")
     status = models.CharField(max_length=20, choices=STATUS)
     image = models.ImageField(

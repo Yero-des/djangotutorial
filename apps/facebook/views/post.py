@@ -23,7 +23,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
         if form.is_valid():
             messages.success(
                 self.request,
-                f"Post '{form.instance.title}' se creo correctamente.",
+                f"Publicación '{form.instance.title}' se creo correctamente.",
             )
         return super().form_valid(form)
 
@@ -39,7 +39,7 @@ class PostDeleteView(LoginRequiredMixin, View):
 
         post = get_object_or_404(Post, pk=pk, user=request.user)
         messages.warning(
-            self.request, f"Post'{post.title}' se elimino.", extra_tags="danger"
+            self.request, f"Publicación '{post.title}' se elimino.", extra_tags="danger"
         )
         post.delete()
 
@@ -54,7 +54,7 @@ class PostUpdateView(LoginRequiredMixin, UpdateView):
     def form_valid(self, form):
         messages.success(
             self.request,
-            f"Post '{self.object.title}' se actualizo correctamente.",
+            f"Publicación '{self.object.title}' se actualizo correctamente.",
         )
         return super().form_valid(form)
 

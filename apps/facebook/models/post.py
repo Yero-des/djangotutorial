@@ -16,6 +16,7 @@ class PostQuerySet(models.QuerySet):
                 ),
                 followers_count=Count("user__followers", distinct=True),
                 likes_count=Count("likes", distinct=True),
+                comments_count=Count("comments", distinct=True),
             )
             .select_related("user")
             .prefetch_related("comments__user")
@@ -24,6 +25,7 @@ class PostQuerySet(models.QuerySet):
 
 class Post(CommonContent):
 
+    title = models.CharField(max_length=100, verbose_name="Título")
     objects = PostQuerySet.as_manager()
 
     @property

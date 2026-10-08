@@ -40,7 +40,9 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
     slug_url_kwarg = "username"
 
     def get_queryset(self):
-        return User.objects.filter(username=self.request.user.username)
+        return User.objects.filter(username=self.request.user.username).annotate(
+            total_posts=Count("facebook_posts", distinct=True)
+        )
 
     def get_success_url(self):
         return reverse("facebook:profile", kwargs={"username": self.object.username})

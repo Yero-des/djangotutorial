@@ -8,70 +8,34 @@
         <h1 class="modal-title fs-5">{{ post.title }}</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
-        <img src="{{ post.image_url }}" alt="{{ post.title }}" class="img-fluid w-100 object-fit-cover rounded mb-3" style="height: 320px;" />
-        <p class="text-body-secondary mb-2">
-          Publicado por{% if post.user %}
-            {{ post.user.username }}
-          {% else %}
-            Usuario eliminado
-          {% endif %}
-        </p>
-        <p class="mb-4">{{ post.description }}</p>
+      <div class="modal-body p-0">
+        {% if post.image %}
+          <div class="bg-body-tertiary">
+            <img src="{{ post.image.url }}" alt="{{ post.title }}" class="img-fluid w-100 object-fit-contain rounded" style="height: 320px;" />
+          </div>
+        {% endif %}
 
+        <div class="p-3">
+          <p class="text-body-secondary mb-2">
+            Publicado por{% if post.user %}
+              <a href="{% url 'facebook:detail-user' pk=post.user.id %}" class="text-decoration-none">{{ post.user.username }}</a>
+            {% else %}
+              Usuario eliminado
+            {% endif %}
+          </p>
+          <p class="mb-4">{{ post.description }}</p>
+        </div>
+
+        {% comment %}Area de comentarios{% endcomment %}
         <section aria-labelledby="post-comments-title">
-          <h2 id="post-comments-title" class="h5 border-top pt-3">Comentarios</h2>
+          <h2 id="post-comments-title" class="h5 border-top pt-3 px-3 mb-0">Comentarios <span class="text-body-secondary fs-6">({{ post.comments_count }})</span></h2>
+
           {% for comment in post.comments.all %}
-            <div>
-              <article class="py-3">
-                <div class="d-flex align-items-center gap-2 mb-3">
-                  {% if comment.user.photo %}
-                    <img src="{{ comment.user.photo.url }}" alt="Foto de {{ comment.user.username }}" class="comment-author-photo rounded-circle object-fit-cover" />
-                  {% else %}
-                    <span class="comment-author-photo rounded-circle d-flex align-items-center justify-content-center bg-body-secondary" aria-label="Usuario eliminado"><i class="bi bi-person"></i></span>
-                  {% endif %}
-                  <div>
-                    <p class="mb-0 fw-semibold">
-                      {% if comment.user %}
-                        {{ comment.user.username }}
-                      {% else %}
-                        Usuario eliminado
-                      {% endif %}
-                    </p>
-                    <small class="text-body-secondary"><time datetime="{{ comment.created_at|date:'c' }}">{{ comment.created_at|date:'d/m/Y H:i' }}</time></small>
-                  </div>
-                </div>
-                <div class="d-flex align-items-start gap-3">
-                  {% if comment.image %}
-                    <div class="comment-thumbnail rounded bg-body-secondary d-flex align-items-center justify-content-center text-body-secondary" aria-label="Sin imagen">
-                      <img src="{{ comment.image.url }}" alt="{{ comment.title }}" class="comment-thumbnail rounded object-fit-contain" />
-                    </div>
-                  {% else %}
-                    <div class="comment-thumbnail rounded bg-body-secondary d-flex align-items-center justify-content-center text-body-secondary" aria-label="Sin imagen">
-                      <i class="bi bi-image"></i>
-                    </div>
-                  {% endif %}
-                  <div class="flex-grow-1">
-                    <div class="text-warning mb-2" aria-label="Calificación: {{ comment.rating }} de 5">
-                      {% for star in '12345'|make_list %}
-                        {% if forloop.counter <= comment.rating %}
-                          <i class="bi bi-star-fill" aria-hidden="true"></i>
-                        {% else %}
-                          <i class="bi bi-star" aria-hidden="true"></i>
-                        {% endif %}
-                      {% endfor %}
-                      <span class="visually-hidden">{{ comment.rating }} de 5 estrellas</span>
-                    </div>
-                    <p class="mb-0">{{ comment.description }}</p>
-                  </div>
-                </div>
-              </article>
-              {% if not forloop.last %}
-                <div class="comment-color-strip" aria-hidden="true"></div>
-              {% endif %}
+            <div class="{% cycle '' 'bg-body-tertiary' %}">
+              {% include './comment_post.html' %}
             </div>
           {% empty %}
-            <p class="text-body-secondary mb-0">Este post todavía no tiene comentarios.</p>
+            <p class="text-body-secondary mb-0 p-3">Este post todavía no tiene comentarios.</p>
           {% endfor %}
         </section>
       </div>
