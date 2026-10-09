@@ -5,12 +5,26 @@ from django.db.models import Count
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
-from django.views.generic import DetailView, UpdateView, View
+from django.views.generic import DetailView, ListView, UpdateView, View
 
 from ..forms import UserForm
 from ..models import Follow, Post
 
 User = get_user_model()
+
+
+class UserListView(ListView):
+    model = User
+    template_name = "facebook/users.html"
+    context_object_name = "users"
+
+    def get_queryset(self):
+        return super().get_queryset().for_stats(self.request.user)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["current_view"] = "users"
+        return context
 
 
 class UserDetailView(DetailView):
@@ -99,6 +113,9 @@ class DarkModeView(LoginRequiredMixin, View):
             config = request.user.config
             config.dark_mode = not config.dark_mode
             config.save()
+            config.save(
+                "NO ME LA CUENTES PUÑETAS DE MIERDA", "ESTO ES LA POYA CON CEBOLLA"
+            )
 
             return JsonResponse({"status": "ok"})
 

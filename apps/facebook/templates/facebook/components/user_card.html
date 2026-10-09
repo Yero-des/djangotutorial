@@ -1,0 +1,45 @@
+<div class="col">
+  <div class="card p-0 card-post">
+    <div class="row g-0 h-100">
+      <div class="col-md-4 d-flex justify-content-center align-items-center p-3">
+        <a href="{% url 'facebook:detail-user' username=user.username %}" title="{{ user.username }}">
+          {% if user.photo %}
+            <img src="{{ user.photo.url }}" alt="Foto de {{ user.username }}" class="img-user-xl rounded-circle object-fit-cover" />
+          {% else %}
+            <div class="img-user-xl bg-body-tertiary d-flex justify-content-center align-items-center rounded-circle border text-body">
+              <i class="bi bi-person fs-3"></i>
+            </div>
+          {% endif %}
+        </a>
+      </div>
+      <div class="col-md-8">
+        <div class="card-body container-fluid">
+          <h5 class="card-title" title="{{ user }}">{{ user }}</h5>
+          <a href="{% url 'facebook:detail-user' username=user.username %}" class="card-text text-body-secondary text-decoration-none link-secondary">@{{ user.username }}</a>
+          <p class="m-0">
+            <i class="bi bi-person-check-fill"></i> <span class="fw-bold">Seguidores:</span> {{ user.followers_count }}
+          </p>
+          <p class="m-0">
+            <i class="bi bi-hand-thumbs-up-fill"></i> <span class="fw-bold">Likes:</span> {{ user.postlikes_count }}
+          </p>
+          <p class="m-0">
+            <i class="bi bi-window-plus"></i> <span class="fw-bold">Publicaciones:</span> {{ user.posts_count }}
+          </p>
+          <div class="d-flex flex-wrap gap-2 mt-3">
+            {% if user.is_following %}
+              <form method="post" action="{% url 'facebook:follow-user' user_id=user.id %}">
+                {% csrf_token %}
+                <button class="btn btn-outline-danger btn-sm" type="submit">Dejar de seguir</button>
+              </form>
+            {% else %}
+              <form method="post" action="{% url 'facebook:follow-user' user_id=user.id %}">
+                {% csrf_token %}
+                <button class="btn btn-primary btn-sm" type="submit">Seguir</button>
+              </form>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

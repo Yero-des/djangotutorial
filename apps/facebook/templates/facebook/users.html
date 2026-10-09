@@ -1,0 +1,28 @@
+{% extends 'layouts/social.html' %}
+{% load static %}
+
+{% block title %}
+  Usuarios
+{% endblock %}
+
+{% block app_styles %}
+  <link rel="stylesheet" href="{% static 'facebook/css/users.css' %}" />
+{% endblock %}
+
+{% block app_content %}
+  <h1>Usuarios</h1>
+  <hr />
+
+  <div class="container">
+    <div class="row row-cols-2 row-cols-lg-3 g-3">
+      {% for user in users %}
+        {% include 'facebook/components/user_card.html' with user=user %}
+      {% empty %}
+        {% comment %}Sin contenido{% endcomment %}
+        <p class="text-center">Sin usuarios para mostrar</p>
+      {% endfor %}
+    </div>
+  </div>
+
+  {% comment %} {% include 'facebook/components/show_posts.html' with posts=posts style='my-4' %} {% endcomment %}
+{% endblock %}

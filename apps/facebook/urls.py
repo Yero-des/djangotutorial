@@ -13,6 +13,7 @@ urlpatterns = [
         "user/detail/<str:username>", views.UserDetailView.as_view(), name="detail-user"
     ),
     path("user/dark-mode/toggle", views.DarkModeView.as_view(), name="dark-mode"),
+    path("user/list", views.UserListView.as_view(), name="list-users"),
     path("follow/<int:user_id>", views.FollowView.as_view(), name="follow-user"),
     path("profile/<str:username>/edit", views.UserUpdateView.as_view(), name="profile"),
 ]
