@@ -38,6 +38,11 @@ main {
 	height: 50px;
 }
 
+.img-user-sidebar {
+	width: 24px;
+	height: 24px;
+}
+
 .post-options .edit-post:hover {
 	color: var(--bs-warning);
 }

@@ -19,9 +19,9 @@
   <div class="dropdown border-top border-secondary">
     <a href="#" class="d-flex align-items-center justify-content-center p-3 link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
       {% if request.user.photo %}
-        <img src="{{ request.user.photo.url }}" alt="mdo" width="24" height="24" class="rounded-circle object-fit-cover" />
+        <img src="{{ request.user.photo.url }}" alt="mdo" class="rounded-circle object-fit-cover img-user-sidebar" />
       {% else %}
-        <div class="w-100 h-100 bg-body-secondary d-flex justify-content-center align-items-center rounded-circle">
+        <div class="bg-body-secondary d-flex justify-content-center align-items-center rounded-circle img-user-sidebar">
           <i class="bi bi-person"></i>
         </div>
       {% endif %}

@@ -12,7 +12,17 @@ photoInput.addEventListener("change", () => {
 
 	if (!file) return;
 
-	photoPreview.src = URL.createObjectURL(file);
+	const imageUrl = URL.createObjectURL(file);
+
+	if (photoPreview.tagName === "IMG") {
+		photoPreview.src = imageUrl;
+	} else {
+		photoPreview.replaceChildren();
+		photoPreview.style.backgroundImage = `url("${imageUrl}")`;
+		photoPreview.style.backgroundSize = "cover";
+		photoPreview.style.backgroundPosition = "center";
+		photoPreview.style.backgroundRepeat = "no-repeat";
+	}
 });
 
 // Modo estado de modo oscuro

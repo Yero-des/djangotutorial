@@ -18,6 +18,9 @@ class UserDetailView(DetailView):
     context_object_name = "user"
     template_name = "facebook/detail_user.html"
 
+    slug_field = "username"
+    slug_url_kwarg = "username"
+
     def get_queryset(self):
         return super().get_queryset().for_stats(self.request.user)
 

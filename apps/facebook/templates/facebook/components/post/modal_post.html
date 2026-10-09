@@ -18,7 +18,7 @@
         <div class="p-3">
           <p class="text-body-secondary mb-2">
             Publicado por{% if post.user %}
-              <a href="{% url 'facebook:detail-user' pk=post.user.id %}" class="text-decoration-none">{{ post.user.username }}</a>
+              <a href="{% url 'facebook:detail-user' username=post.user.username %}" class="text-decoration-none">{{ post.user.username }}</a>
             {% else %}
               Usuario eliminado
             {% endif %}

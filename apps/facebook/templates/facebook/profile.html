@@ -31,7 +31,7 @@
             {% if user.photo %}
               <img id="profile-preview-photo" src="{{ user.photo.url }}" class="object-fit-cover h-100 w-100" alt="Imagen actual del usuario {{ user.username }}" />
             {% else %}
-              <div class="w-100 h-100 bg-body-secondary d-flex justify-content-center align-items-center">
+              <div id="profile-preview-photo" class="w-100 h-100 bg-body-secondary d-flex justify-content-center align-items-center">
                 <i class="bi bi-person fs-1"></i>
               </div>
             {% endif %}
