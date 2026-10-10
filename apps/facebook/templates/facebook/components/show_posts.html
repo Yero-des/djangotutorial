@@ -1,12 +1,14 @@
-<div class="container {{ style }}">
-  <div class="row row-cols-2 row-cols-lg-3 g-3 {% if not posts %}justify-content-center{% endif %}">
-    {% for post in posts %}
-      {% include './post.html' with post=post %}
-    {% empty %}
-      {% comment %}Sin posts para mostrar{% endcomment %}
-      <div class="col">
-        <p class="text-center mt-5">Sin publicaciones para mostrar</p>
-      </div>
-    {% endfor %}
+<div class="row">
+  <div class="container {{ style }}">
+    <div class="row row-cols-2 row-cols-lg-3 g-3 {% if not posts %}justify-content-center{% endif %}">
+      {% for post in posts %}
+        {% include './post.html' with post=post %}
+      {% empty %}
+        {% comment %}Sin posts para mostrar{% endcomment %}
+        <div class="col">
+          <p class="text-center mt-5">Sin publicaciones para mostrar</p>
+        </div>
+      {% endfor %}
+    </div>
   </div>
 </div>

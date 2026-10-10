@@ -113,9 +113,6 @@ class DarkModeView(LoginRequiredMixin, View):
             config = request.user.config
             config.dark_mode = not config.dark_mode
             config.save()
-            config.save(
-                "NO ME LA CUENTES PUÑETAS DE MIERDA", "ESTO ES LA POYA CON CEBOLLA"
-            )
 
             return JsonResponse({"status": "ok"})
 

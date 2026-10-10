@@ -48,8 +48,14 @@
 
   <hr />
 
-  <h2>Mis publicaciones <span class="fs-5 text-body-secondary">({{ user.total_posts }})</span></h2>
-  {% comment %}TODO: Añadir atajo para agregar publicaciones (icono + href){% endcomment %}
+  <div class="d-flex justify-content-between align-items-center">
+    <h2>Mis publicaciones <span class="fs-5 text-body-secondary">({{ user.total_posts }})</span></h2>
+    <a href="{% url 'facebook:create-post' %}" class="w-auto text-body text-decoration-none link-body-emphasis">
+      <p class="m-0 d-flex align-items-center">
+        Nueva publicación <i class="bi bi-plus fs-2"></i>
+      </p>
+    </a>
+  </div>
   {% comment %}TODO: Implementar funcionalidad para ocultar publicaciones{% endcomment %}
   {% include 'facebook/components/show_posts.html' with posts=posts_user style='my-4' %}
 {% endblock %}
