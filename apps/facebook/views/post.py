@@ -43,7 +43,7 @@ class PostDeleteView(LoginRequiredMixin, View):
         )
         post.delete()
 
-        return redirect("facebook:profile", username=request.user.username)
+        return redirect(request.META.get("HTTP_REFERER", "/"))
 
 
 class PostUpdateView(LoginRequiredMixin, UpdateView):

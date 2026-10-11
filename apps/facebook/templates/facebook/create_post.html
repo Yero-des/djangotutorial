@@ -9,14 +9,11 @@
 {% endblock %}
 
 {% block app_content %}
-  <h1>
-    {% if current_view == 'edit-post' %}
-      Editar publicación
-    {% else %}
-      Crear publicación
-    {% endif %}
-  </h1>
-  <hr />
+  {% if current_view == 'edit-post' %}
+    {% include 'facebook/components/toggle_title.html' with title='Editar publicación' user=request.user %}
+  {% else %}
+    {% include 'facebook/components/toggle_title.html' with title='Crear publicación' user=request.user %}
+  {% endif %}
 
   {% comment %}Actualizar la vista para crear / editar{% endcomment %}
   <div class="row">
@@ -40,11 +37,23 @@
 
         <button class="btn {% if current_view == 'edit-post' %}
             
+            
+            
+            
              btn-warning
+
+
+
 
           {% else %}
             
+            
+            
+            
             btn-success
+
+
+
 
           {% endif %}"
           type="submit">

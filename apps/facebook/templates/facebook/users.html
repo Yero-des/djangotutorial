@@ -10,17 +10,18 @@
 {% endblock %}
 
 {% block app_content %}
-  <h1>Usuarios</h1>
-  <hr />
+  {% include 'facebook/components/toggle_title.html' with title='Usuarios' user=request.user %}
 
-  <div class="container">
-    <div class="row row-cols-2 row-cols-lg-3 g-3">
-      {% for user in users %}
-        {% include 'facebook/components/user_card.html' with user=user %}
-      {% empty %}
-        {% comment %}Sin contenido{% endcomment %}
-        <p class="text-center">Sin usuarios para mostrar</p>
-      {% endfor %}
+  <div class="row">
+    <div class="container my-4">
+      <div class="row row-cols-2 row-cols-lg-3 g-3">
+        {% for user in users %}
+          {% include 'facebook/components/user_card.html' with user=user %}
+        {% empty %}
+          {% comment %}Sin contenido{% endcomment %}
+          <p class="text-center">Sin usuarios para mostrar</p>
+        {% endfor %}
+      </div>
     </div>
   </div>
 

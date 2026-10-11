@@ -17,6 +17,11 @@ main {
 }
 
 /* Custom card post */
+.card-post {
+	cursor: default;
+	transition: background-color 0.3s ease-in-out;
+}
+
 .card-post .card-title {
 	overflow: hidden;
 	white-space: nowrap;
@@ -31,6 +36,14 @@ main {
 	overflow: hidden;
 	line-height: 1.5em; /* Define la altura de cada línea (ej. 1.5 veces el tamaño de la letra) */
 	height: 4.5em;
+}
+
+.card-post:hover {
+	--bs-bg-opacity: 1;
+	background-color: rgba(
+		var(--bs-secondary-bg-rgb),
+		var(--bs-bg-opacity)
+	) !important;
 }
 
 .img-user-post {

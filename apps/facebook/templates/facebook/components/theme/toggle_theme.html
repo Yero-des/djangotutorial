@@ -1,0 +1,4 @@
+<div class="d-flex form-check form-switch gap-2 align-items-center">
+  <input id="dark-mode-toggle" class="form-check-input my-auto" type="checkbox" role="switch" {{ user.config.dark_mode|yesno:'checked,' }} data-url="{% url 'facebook:dark-mode' %}" data-csrf="{{ csrf_token }}" />
+  <label id="dark-mode-label" class="form-check-label" for="dark-mode-toggle" title="Activar modo oscuro"><i class="bi bi-moon-stars{{ user.config.dark_mode|yesno:'-fill,' }} fs-6"></i></label>
+</div>

@@ -1,0 +1,7 @@
+<div class="d-flex align-items-start gap-3">
+  {% comment %}Titulo{% endcomment %}
+  <h1>{{ title }}</h1>
+  {% comment %}Cambiar tema{% endcomment %}
+  {% include './theme/toggle_theme.html' with user=user %}
+</div>
+<hr />

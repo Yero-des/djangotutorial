@@ -1,9 +1,9 @@
 {% load static %}
 
 <div class="col">
-  <div class="card p-0 card-post">
+  <div class="card border-secondary p-0 card-post overflow-hidden shadow">
     <div class="row g-0 h-100">
-      <div class="col-md-4">
+      <div class="col-md-4 bord border-end border-primary border-3">
         <div class="img-post-container h-100 position-relative">
           {% if not is_user_detail %}
             <a href="{% url 'facebook:detail-user' username=post.user.username %}" onclick="event.stopPropagation()" class="img-post-profile position-absolute bottom-0 start-0 d-flex align-items-center justify-content-center p-3 text-decoration-none" title="{{ post.user.username }}">
@@ -34,7 +34,7 @@
       </div>
       <div class="col-md-8">
         <div class="card-body container-fluid">
-          <h5 class="card-title link-body-emphasis" title="{{ post.title }}" role="button" data-bs-toggle="modal" data-bs-target="#postModal-{{ post.id }}">{{ post.title }}</h5>
+          <h5 class="card-title" title="{{ post.title }}" role="button" data-bs-toggle="modal" data-bs-target="#postModal-{{ post.id }}">{{ post.title }}</h5>
           <p class="card-text card-content">{{ post.description }}</p>
           <p class="m-0">
             <button id="btn-like-post-{{ post.id }}" data-url="{% url 'facebook:like-post' post.id %}" data-csrf="{{ csrf_token }}" onclick="event.stopPropagation(); likePost(this)" class="btn p-0 btn-like-inner-post {% if post.is_liked %}liked{% endif %}">
@@ -42,12 +42,14 @@
               <span>{{ post.likes_count }}</span>
             </button>
           </p>
-          <p class="card-text col-auto">
-            <small class="text-body-secondary"><time datetime="{{ post.created_at|date:'c' }}">{{ post.created_at|date:'d/m/Y H:i' }}</time></small>
-          </p>
-          {% if request.resolver_match.view_name == 'facebook:profile' %}
-            {% include './post/actions_post.html' with post=post %}
-          {% endif %}
+          <div class="row justify-content-between">
+            <p class="card-text col-auto m-0">
+              <small class="text-body-secondary"><time datetime="{{ post.created_at|date:'c' }}">{{ post.created_at|date:'d/m/Y H:i' }}</time></small>
+            </p>
+            {% if post.user == request.user %}
+              {% include './post/actions_post.html' with post=post %}
+            {% endif %}
+          </div>
         </div>
       </div>
     </div>

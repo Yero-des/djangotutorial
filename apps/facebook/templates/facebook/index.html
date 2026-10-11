@@ -5,8 +5,6 @@
 {% endblock %}
 
 {% block app_content %}
-  <h1>Publicaciones</h1>
-  <hr />
-
+  {% include 'facebook/components/toggle_title.html' with title='Publicaciones' user=request.user %}
   {% include 'facebook/components/show_posts.html' with posts=posts style='my-4' %}
 {% endblock %}

@@ -15,7 +15,7 @@
       <div class="col-md-8">
         <div class="card-body container-fluid">
           <h5 class="card-title" title="{{ user }}">{{ user }}</h5>
-          <a href="{% url 'facebook:detail-user' username=user.username %}" class="card-text text-body-secondary text-decoration-none link-secondary">@{{ user.username }}</a>
+          <a href="{% url 'facebook:detail-user' username=user.username %}" class="card-text text-body-secondary text-decoration-none">@{{ user.username }}</a>
           <p class="m-0">
             <i class="bi bi-person-check-fill"></i> <span class="fw-bold">Seguidores:</span> {{ user.followers_count }}
           </p>

@@ -23,12 +23,12 @@
               Usuario eliminado
             {% endif %}
           </p>
-          <p class="mb-4">{{ post.description }}</p>
+          <p class="m-0">{{ post.description }}</p>
         </div>
 
         {% comment %}Area de comentarios{% endcomment %}
         <section aria-labelledby="post-comments-title">
-          <h2 id="post-comments-title" class="h5 border-top pt-3 px-3 mb-0">Comentarios <span class="text-body-secondary fs-6">({{ post.comments_count }})</span></h2>
+          <h2 id="post-comments-title" class="h5 border-top border-secondary-subtle pt-3 px-3 mb-0">Comentarios <span class="text-body-secondary fs-6">({{ post.comments_count }})</span></h2>
 
           {% for comment in post.comments.all %}
             <div class="{% cycle '' 'bg-body-tertiary border-bottom border-top' %}">
