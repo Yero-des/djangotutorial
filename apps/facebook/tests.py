@@ -182,3 +182,40 @@ class PostCreateViewTest(TestCase):
         """
         response = self.client.get(reverse("facebook:create-post"))
         self.assertEqual(response.status_code, 302)
+
+
+class CommentCreateViewTest(TestCase):
+
+    def setUp(self):
+        self.user = User.objects.create_user(username="comentador")
+        self.post = Post.objects.create(
+            user=User.objects.create_user(username="autor"),
+            title="Publicación de prueba",
+            description="Contenido de prueba",
+            status="active",
+        )
+        self.url = reverse("facebook:create-comment", args=[self.post.pk])
+
+    def test_authenticated_user_can_create_comment(self):
+        self.client.force_login(self.user)
+
+        response = self.client.post(self.url, {"comment": "Buen post"})
+
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.json()["status"], "ok")
+        self.assertEqual(response.json()["comments_count"], 1)
+        self.assertIn("Buen post", response.json()["comment_html"])
+        self.assertEqual(self.post.comments.get().user, self.user)
+
+    def test_empty_comment_is_rejected(self):
+        self.client.force_login(self.user)
+
+        response = self.client.post(self.url, {"comment": "   "})
+
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(self.post.comments.count(), 0)
+
+    def test_anonymous_user_cannot_create_comment(self):
+        response = self.client.post(self.url, {"comment": "Buen post"})
+
+        self.assertEqual(response.status_code, 302)

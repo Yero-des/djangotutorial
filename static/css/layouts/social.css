@@ -179,3 +179,15 @@ main {
 		#8e6cba
 	);
 }
+
+.new-comment-input {
+	min-width: 0;
+}
+
+.new-comment-input textarea {
+	overflow-y: hidden;
+	resize: none;
+	box-sizing: border-box;
+	field-sizing: content;
+	min-height: 50px;
+}

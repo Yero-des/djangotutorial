@@ -81,6 +81,12 @@ function swalTheme() {
 document.addEventListener("submit", (event) => {
 	const form = event.target;
 
+	if (form.matches(".new-comment-form")) {
+		event.preventDefault();
+		submitComment(form);
+		return;
+	}
+
 	if (!form.matches(".delete-post-form")) {
 		return;
 	}
@@ -109,3 +115,50 @@ document.addEventListener("submit", (event) => {
 		}
 	});
 });
+
+async function submitComment(form) {
+	const submitButton = form.querySelector('button[type="submit"]');
+	const textArea = form.querySelector('textarea[name="comment"]');
+	const commentsSection = form
+		.closest(".modal")
+		.querySelector("[data-comments-list]");
+
+	submitButton.disabled = true;
+
+	try {
+		const response = await fetch(form.action, {
+			method: "POST",
+			headers: {
+				"X-CSRFToken": form.querySelector(
+					'[name="csrfmiddlewaretoken"]',
+				).value,
+			},
+			body: new FormData(form),
+		});
+		const data = await response.json();
+
+		if (!response.ok) {
+			throw new Error(data.error || "No se pudo enviar el comentario.");
+		}
+
+		commentsSection.querySelector("[data-empty-comments]")?.remove();
+
+		const commentWrapper = document.createElement("div");
+		if (data.comments_count % 2 === 0) {
+			commentWrapper.className =
+				"bg-body-tertiary border-bottom border-top";
+		}
+		commentWrapper.innerHTML = data.comment_html;
+		commentsSection.append(commentWrapper);
+
+		form.querySelector("textarea").value = "";
+		form
+			.closest(".modal")
+			.querySelector("[data-comments-count]").textContent =
+			data.comments_count;
+	} catch (error) {
+		textArea.classList.add("is-invalid");
+	} finally {
+		submitButton.disabled = false;
+	}
+}
