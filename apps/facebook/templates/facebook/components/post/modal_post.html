@@ -39,6 +39,27 @@
           {% endfor %}
         </section>
       </div>
+      <div class="modal-footer">
+        <div class="container-sm">
+          <div class="row">
+            <div class="col-auto p-0">
+              {% if request.user.photo %}
+                <img src="{{ request.user.photo.url }}" alt="mdo" class="img-user-post rounded-circle object-fit-cover" />
+              {% else %}
+                <div class="img-user-post bg-body-tertiary d-flex justify-content-center align-items-center rounded-circle text-decoration-none border text-body">
+                  <i class="bi bi-person"></i>
+                </div>
+              {% endif %}
+            </div>
+            <div class="col">
+              <div class="input-group">
+                <textarea name="comment" id="uploadComment" placeholder="Comentar como {{ request.user }}" class="form-control"></textarea>
+                <button class="btn btn-primary"><i class="bi bi-send"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
