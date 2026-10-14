@@ -1,6 +1,9 @@
+from tempfile import TemporaryDirectory
+
 from django.contrib.auth import get_user_model
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.db import IntegrityError
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from django.urls import reverse
 
 from .models import Follow, Post, PostLike
@@ -206,6 +209,25 @@ class CommentCreateViewTest(TestCase):
         self.assertEqual(response.json()["comments_count"], 1)
         self.assertIn("Buen post", response.json()["comment_html"])
         self.assertEqual(self.post.comments.get().user, self.user)
+
+    def test_authenticated_user_can_create_comment_with_image(self):
+        self.client.force_login(self.user)
+        image = SimpleUploadedFile(
+            "comment.jpg", b"image-content", content_type="image/jpeg"
+        )
+
+        with (
+            TemporaryDirectory() as media_root,
+            override_settings(MEDIA_ROOT=media_root),
+        ):
+            response = self.client.post(
+                self.url, {"comment": "Buen post", "image": image}
+            )
+
+            comment = self.post.comments.get()
+            self.assertEqual(response.status_code, 201)
+            self.assertTrue(comment.image)
+            self.assertIn(comment.image.url, response.json()["comment_html"])
 
     def test_empty_comment_is_rejected(self):
         self.client.force_login(self.user)

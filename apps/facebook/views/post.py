@@ -122,7 +122,11 @@ class CommentCreateView(LoginRequiredMixin, View):
 
         with transaction.atomic():
             comment = Comment.objects.create(
-                post=post, user=request.user, description=description, status="active"
+                post=post,
+                user=request.user,
+                description=description,
+                image=request.FILES.get("image"),
+                status="active",
             )
 
         return JsonResponse(

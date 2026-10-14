@@ -23,20 +23,10 @@
         <time class="text-body-secondary" datetime="{{ comment.created_at|date:'c' }}">{{ comment.created_at|date:'d/m/Y H:i' }}</time>
       </div>
       {% comment %}Contenido de comentario{% endcomment %}
-      <div class="row">
-        <p class="mb-0">{{ comment.description }}</p>
-      </div>
+      <p class="mb-1">{{ comment.description }}</p>
+      {% if comment.image %}
+        <img src="{{ comment.image.url }}" alt="Foto adjunta al comentario" class="comment-image rounded bg-body-secondary" />
+      {% endif %}
     </div>
-  </div>
-  <div class="d-flex align-items-start gap-3">
-    {% comment %} {% if comment.image %}
-      <div class="comment-thumbnail rounded bg-body-secondary d-flex align-items-center justify-content-center text-body-secondary" aria-label="Sin imagen">
-        <img src="{{ comment.image.url }}" alt="{{ comment.title }}" class="comment-thumbnail rounded object-fit-contain" />
-      </div>
-    {% else %}
-      <div class="comment-thumbnail rounded bg-body-secondary d-flex align-items-center justify-content-center text-body-secondary" aria-label="Sin imagen">
-        <i class="bi bi-image"></i>
-      </div>
-    {% endif %} {% endcomment %}
   </div>
 </article>

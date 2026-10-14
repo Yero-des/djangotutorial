@@ -1,4 +1,4 @@
-<form class="container-sm p-0 new-comment-form" action="{% url 'facebook:create-comment' post.id %}" method="post">
+<form class="container-sm p-0 new-comment-form" action="{% url 'facebook:create-comment' post.id %}" method="post" enctype="multipart/form-data">
   {% csrf_token %}
   <div class="row g-0 gap-2 align-items-center">
     <div class="col-auto">
@@ -12,8 +12,17 @@
     </div>
     <div class="col new-comment-input">
       <div class="input-group">
+        {% comment %}Agregar comentario{% endcomment %}
         <textarea name="comment" id="newCommentUser-{{ post.id }}" placeholder="Comentar como {{ request.user }}" class="form-control" required></textarea>
+        {% comment %}Agregar imagen{% endcomment %}
+        <input type="file" name="image" id="commentImage-{{ post.id }}" class="d-none" accept="image/*" data-comment-image-input />
+        <label for="commentImage-{{ post.id }}" class="btn btn-secondary d-flex align-items-center" aria-label="Adjuntar foto" title="Adjuntar foto"><i class="bi bi-image"></i></label>
+        {% comment %}Enviar formulario{% endcomment %}
         <button type="submit" class="btn btn-primary" aria-label="Enviar comentario"><i class="bi bi-send"></i></button>
+      </div>
+      <div class="comment-image-preview mt-2" data-comment-image-preview hidden>
+        <img alt="Vista previa de la imagen" data-comment-image-preview-img />
+        <button type="button" class="btn btn-dark btn-sm rounded-circle" aria-label="Quitar foto" title="Quitar foto" data-comment-image-remove><i class="bi bi-x"></i></button>
       </div>
     </div>
   </div>

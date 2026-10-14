@@ -5,6 +5,35 @@ document.querySelectorAll("input, textarea").forEach((element) => {
 	});
 });
 
+document.querySelectorAll(".new-comment-form").forEach((form) => {
+	const imageInput = form.querySelector("[data-comment-image-input]");
+	const preview = form.querySelector("[data-comment-image-preview]");
+	const previewImage = form.querySelector("[data-comment-image-preview-img]");
+	let previewUrl;
+
+	imageInput.addEventListener("change", () => {
+		const image = imageInput.files[0];
+
+		if (!image) return;
+
+		if (previewUrl) URL.revokeObjectURL(previewUrl);
+		previewUrl = URL.createObjectURL(image);
+		previewImage.src = previewUrl;
+		preview.hidden = false;
+	});
+
+	form.querySelector("[data-comment-image-remove]").addEventListener(
+		"click",
+		() => {
+			imageInput.value = "";
+			previewImage.removeAttribute("src");
+			preview.hidden = true;
+			if (previewUrl) URL.revokeObjectURL(previewUrl);
+			previewUrl = null;
+		},
+	);
+});
+
 // Like dentro del post
 function likePost(element) {
 	const likesSpan = element.getElementsByTagName("span")[0];
@@ -155,6 +184,7 @@ async function submitComment(form) {
 		);
 
 		form.querySelector("textarea").value = "";
+		form.querySelector("[data-comment-image-remove]").click();
 		form
 			.closest(".modal")
 			.querySelector("[data-comments-count]").textContent =
