@@ -139,7 +139,7 @@ async function submitComment(form) {
 		const data = await response.json();
 
 		if (!response.ok) {
-			throw new Error(data.error || "No se pudo enviar el comentario.");
+			throw data;
 		}
 
 		commentsSection.querySelector("[data-empty-comments]")?.remove();
@@ -150,15 +150,24 @@ async function submitComment(form) {
 				"bg-body-tertiary border-bottom border-top";
 		}
 		commentWrapper.innerHTML = data.comment_html;
-		commentsSection.prepend(commentWrapper);
+		commentsSection.prepend(
+			commentWrapper.firstElementChild || commentWrapper,
+		);
 
 		form.querySelector("textarea").value = "";
 		form
 			.closest(".modal")
 			.querySelector("[data-comments-count]").textContent =
 			data.comments_count;
+
+		// Mostrar toast de comentario agregado
+		toastFetch(data.success_html);
 	} catch (error) {
+		// Marcar textarea con un tono rojo
 		textArea.classList.add("is-invalid");
+
+		// Mostrar toast de error
+		toastFetch(error.error_html);
 	} finally {
 		submitButton.disabled = false;
 	}

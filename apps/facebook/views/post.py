@@ -107,8 +107,16 @@ class CommentCreateView(LoginRequiredMixin, View):
         description = request.POST.get("comment", "").strip()
 
         if not description:
+            msg_error = "Escribe un comentario antes de enviarlo."
             return JsonResponse(
-                {"status": "error", "error": "Escribe un comentario antes de enviarlo."},
+                {
+                    "status": "error",
+                    "error": msg_error,
+                    "error_html": render_to_string(
+                        "components/social/messages/message.html",
+                        {"toast_style": "text-bg-danger", "message": msg_error},
+                    ),
+                },
                 status=400,
             )
 
@@ -123,10 +131,15 @@ class CommentCreateView(LoginRequiredMixin, View):
                 )
         except IntegrityError:
             if Comment.objects.filter(post=post, user=request.user).exists():
+                msg_error = "Ya has comentado esta publicación."
                 return JsonResponse(
                     {
                         "status": "error",
-                        "error": "Ya has comentado esta publicación.",
+                        "error": msg_error,
+                        "error_html": render_to_string(
+                            "components/social/messages/message.html",
+                            {"toast_style": "text-bg-danger", "message": msg_error},
+                        ),
                     },
                     status=409,
                 )
@@ -139,6 +152,13 @@ class CommentCreateView(LoginRequiredMixin, View):
                     "facebook/components/post/comment_post.html",
                     {"comment": comment},
                     request=request,
+                ),
+                "success_html": render_to_string(
+                    "components/social/messages/message.html",
+                    {
+                        "toast_style": "text-bg-success",
+                        "message": "Commentario subido correctamente.",
+                    },
                 ),
                 "comments_count": post.comments.count(),
             },
