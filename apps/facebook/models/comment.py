@@ -26,6 +26,7 @@ class Comment(CommonContent):
         return f"{self.user} => {self.post}"
 
     class Meta:
+        ordering = ["-created_at"]
         constraints = [
             models.UniqueConstraint(
                 fields=["post", "user"], name="unique_comment_by_user"

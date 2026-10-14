@@ -116,6 +116,7 @@ document.addEventListener("submit", (event) => {
 	});
 });
 
+// Subir comentario
 async function submitComment(form) {
 	const submitButton = form.querySelector('button[type="submit"]');
 	const textArea = form.querySelector('textarea[name="comment"]');
@@ -149,7 +150,7 @@ async function submitComment(form) {
 				"bg-body-tertiary border-bottom border-top";
 		}
 		commentWrapper.innerHTML = data.comment_html;
-		commentsSection.append(commentWrapper);
+		commentsSection.prepend(commentWrapper);
 
 		form.querySelector("textarea").value = "";
 		form
