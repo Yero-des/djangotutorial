@@ -1,11 +1,11 @@
 <form class="container-sm p-0 new-comment-form" action="{% url 'facebook:create-comment' post.id %}" method="post">
   {% csrf_token %}
-  <div class="row g-0 gap-2">
+  <div class="row g-0 gap-2 align-items-center">
     <div class="col-auto">
       {% if request.user.photo %}
-        <img src="{{ request.user.photo.url }}" alt="mdo" class="img-user-post rounded-circle object-fit-cover" />
+        <img src="{{ request.user.photo.url }}" alt="mdo" class="img-user-new-comment rounded-circle object-fit-cover" />
       {% else %}
-        <div class="img-user-post bg-body-tertiary d-flex justify-content-center align-items-center rounded-circle text-decoration-none border text-body">
+        <div class="img-user-new-comment bg-body-tertiary d-flex justify-content-center align-items-center rounded-circle text-decoration-none border text-body">
           <i class="bi bi-person"></i>
         </div>
       {% endif %}

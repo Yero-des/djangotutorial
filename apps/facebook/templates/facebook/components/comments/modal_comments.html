@@ -1,11 +1,9 @@
 <section aria-labelledby="post-comments-title">
-  <h2 id="post-comments-title" class="h5 border-top border-secondary-subtle pt-3 px-3 mb-0">Comentarios <span class="text-body-secondary fs-6">(<span data-comments-count>{{ post.comments_count }}</span>)</span></h2>
+  <h2 id="post-comments-title" class="h5 border-top border-secondary-subtle pt-3 px-3 mb-3">Comentarios <span class="text-body-secondary fs-6">(<span data-comments-count>{{ post.comments_count }}</span>)</span></h2>
 
-  <div data-comments-list>
+  <div data-comments-list class="d-flex flex-column gap-3">
     {% for comment in post.comments.all %}
-      <div class="{% cycle '' 'bg-body-tertiary border-bottom border-top' %}">
-        {% include 'facebook/components/post/comment_post.html' %}
-      </div>
+      {% include 'facebook/components/post/comment_post.html' %}
     {% empty %}
       <p class="text-body-secondary mb-0 p-3" data-empty-comments>Este post todavía no tiene comentarios.</p>
     {% endfor %}

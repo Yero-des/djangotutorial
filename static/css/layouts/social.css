@@ -56,6 +56,21 @@ main {
 	height: 24px;
 }
 
+.img-user-new-comment {
+	width: 40px;
+	height: 40px;
+}
+
+.comment-user-info time {
+	font-size: 0.8rem;
+}
+
+.comment-user-info a {
+	display: inline-block;
+	height: auto;
+	line-height: 1;
+}
+
 .post-options .edit-post:hover {
 	color: var(--bs-warning);
 }

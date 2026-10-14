@@ -120,30 +120,10 @@ class CommentCreateView(LoginRequiredMixin, View):
                 status=400,
             )
 
-        try:
-            with transaction.atomic():
-                comment = Comment.objects.create(
-                    post=post,
-                    user=request.user,
-                    description=description,
-                    status="active",
-                    rating=0,
-                )
-        except IntegrityError:
-            if Comment.objects.filter(post=post, user=request.user).exists():
-                msg_error = "Ya has comentado esta publicación."
-                return JsonResponse(
-                    {
-                        "status": "error",
-                        "error": msg_error,
-                        "error_html": render_to_string(
-                            "components/social/messages/message.html",
-                            {"toast_style": "text-bg-danger", "message": msg_error},
-                        ),
-                    },
-                    status=409,
-                )
-            raise
+        with transaction.atomic():
+            comment = Comment.objects.create(
+                post=post, user=request.user, description=description, status="active"
+            )
 
         return JsonResponse(
             {

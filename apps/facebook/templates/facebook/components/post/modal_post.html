@@ -7,7 +7,7 @@
         <h1 class="modal-title fs-5">{{ post.title }}</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body p-0">
+      <div class="modal-body p-0 pb-3">
         {% if post.image %}
           <div class="bg-body-secondary">
             <img src="{{ post.image.url }}" alt="{{ post.title }}" class="img-fluid w-100 object-fit-contain rounded" style="height: 320px;" />
