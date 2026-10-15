@@ -1,0 +1,11 @@
+<section aria-labelledby="post-comments-title">
+  <h2 id="post-comments-title" class="h5 border-top border-secondary-subtle pt-3 px-3 mb-3">Comentarios <span class="text-body-secondary fs-6">(<span data-comments-count>{{ post.comments_count }}</span>)</span></h2>
+
+  <div data-comments-list class="d-flex flex-column gap-3">
+    {% for comment in post.comments.all %}
+      {% include 'facebook/components/post/comment_post.html' %}
+    {% empty %}
+      <p class="text-body-secondary mb-0 p-3" data-empty-comments>Este post todavía no tiene comentarios.</p>
+    {% endfor %}
+  </div>
+</section>

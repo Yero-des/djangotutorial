@@ -5,6 +5,35 @@ document.querySelectorAll("input, textarea").forEach((element) => {
 	});
 });
 
+document.querySelectorAll(".new-comment-form").forEach((form) => {
+	const imageInput = form.querySelector("[data-comment-image-input]");
+	const preview = form.querySelector("[data-comment-image-preview]");
+	const previewImage = form.querySelector("[data-comment-image-preview-img]");
+	let previewUrl;
+
+	imageInput.addEventListener("change", () => {
+		const image = imageInput.files[0];
+
+		if (!image) return;
+
+		if (previewUrl) URL.revokeObjectURL(previewUrl);
+		previewUrl = URL.createObjectURL(image);
+		previewImage.src = previewUrl;
+		preview.hidden = false;
+	});
+
+	form.querySelector("[data-comment-image-remove]").addEventListener(
+		"click",
+		() => {
+			imageInput.value = "";
+			previewImage.removeAttribute("src");
+			preview.hidden = true;
+			if (previewUrl) URL.revokeObjectURL(previewUrl);
+			previewUrl = null;
+		},
+	);
+});
+
 // Like dentro del post
 function likePost(element) {
 	const likesSpan = element.getElementsByTagName("span")[0];
@@ -81,6 +110,12 @@ function swalTheme() {
 document.addEventListener("submit", (event) => {
 	const form = event.target;
 
+	if (form.matches(".new-comment-form")) {
+		event.preventDefault();
+		submitComment(form);
+		return;
+	}
+
 	if (!form.matches(".delete-post-form")) {
 		return;
 	}
@@ -109,3 +144,61 @@ document.addEventListener("submit", (event) => {
 		}
 	});
 });
+
+// Subir comentario
+async function submitComment(form) {
+	const submitButton = form.querySelector('button[type="submit"]');
+	const textArea = form.querySelector('textarea[name="comment"]');
+	const commentsSection = form
+		.closest(".modal")
+		.querySelector("[data-comments-list]");
+
+	submitButton.disabled = true;
+
+	try {
+		const response = await fetch(form.action, {
+			method: "POST",
+			headers: {
+				"X-CSRFToken": form.querySelector(
+					'[name="csrfmiddlewaretoken"]',
+				).value,
+			},
+			body: new FormData(form),
+		});
+		const data = await response.json();
+
+		if (!response.ok) {
+			throw data;
+		}
+
+		commentsSection.querySelector("[data-empty-comments]")?.remove();
+
+		const commentWrapper = document.createElement("div");
+		if (data.comments_count % 2 === 0) {
+			commentWrapper.className =
+				"bg-body-tertiary border-bottom border-top";
+		}
+		commentWrapper.innerHTML = data.comment_html;
+		commentsSection.prepend(
+			commentWrapper.firstElementChild || commentWrapper,
+		);
+
+		form.querySelector("textarea").value = "";
+		form.querySelector("[data-comment-image-remove]").click();
+		form
+			.closest(".modal")
+			.querySelector("[data-comments-count]").textContent =
+			data.comments_count;
+
+		// Mostrar toast de comentario agregado
+		toastFetch(data.success_html);
+	} catch (error) {
+		// Marcar textarea con un tono rojo
+		textArea.classList.add("is-invalid");
+
+		// Mostrar toast de error
+		toastFetch(error.error_html);
+	} finally {
+		submitButton.disabled = false;
+	}
+}

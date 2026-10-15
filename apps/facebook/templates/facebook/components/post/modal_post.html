@@ -1,5 +1,4 @@
 <div class="modal fade" id="postModal-{{ post.id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
-  {% comment %}TODO: Implementar funcionalidad para agregar commentarios{% endcomment %}
   {% comment %}TODO: Implementar funcionalidad para editar / borrar comentarios{% endcomment %}
   {% comment %}TODO: Implementar funcionalidad para dar likes a los comentarios{% endcomment %}
   <div class="modal-dialog modal-dialog-scrollable modal-lg">
@@ -8,7 +7,7 @@
         <h1 class="modal-title fs-5">{{ post.title }}</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body p-0">
+      <div class="modal-body p-0 pb-3">
         {% if post.image %}
           <div class="bg-body-secondary">
             <img src="{{ post.image.url }}" alt="{{ post.title }}" class="img-fluid w-100 object-fit-contain rounded" style="height: 320px;" />
@@ -27,17 +26,11 @@
         </div>
 
         {% comment %}Area de comentarios{% endcomment %}
-        <section aria-labelledby="post-comments-title">
-          <h2 id="post-comments-title" class="h5 border-top border-secondary-subtle pt-3 px-3 mb-0">Comentarios <span class="text-body-secondary fs-6">({{ post.comments_count }})</span></h2>
-
-          {% for comment in post.comments.all %}
-            <div class="{% cycle '' 'bg-body-tertiary border-bottom border-top' %}">
-              {% include './comment_post.html' %}
-            </div>
-          {% empty %}
-            <p class="text-body-secondary mb-0 p-3">Este post todavía no tiene comentarios.</p>
-          {% endfor %}
-        </section>
+        {% include 'facebook/components/comments/modal_comments.html' with post=post %}
+      </div>
+      <div class="modal-footer">
+        {% comment %}Subir nuevo comentario{% endcomment %}
+        {% include 'facebook/components/comments/modal_new_comment.html' with post=post %}
       </div>
     </div>
   </div>

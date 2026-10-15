@@ -2,13 +2,15 @@ import json
 
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db import IntegrityError, transaction
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, redirect
+from django.template.loader import render_to_string
 from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, DeleteView, UpdateView, View
 
 from ..forms import PostForm
-from ..models import Post, PostLike
+from ..models import Comment, Post, PostLike
 
 
 class PostCreateView(LoginRequiredMixin, CreateView):
@@ -95,4 +97,54 @@ class LikePostView(LoginRequiredMixin, View):
                 "user": request.user.username,
                 "liked": liked,
             }
+        )
+
+
+class CommentCreateView(LoginRequiredMixin, View):
+
+    def post(self, request, post_id, *args, **kwargs):
+        post = get_object_or_404(Post, pk=post_id)
+        description = request.POST.get("comment", "").strip()
+
+        if not description:
+            msg_error = "Escribe un comentario antes de enviarlo."
+            return JsonResponse(
+                {
+                    "status": "error",
+                    "error": msg_error,
+                    "error_html": render_to_string(
+                        "components/social/messages/message.html",
+                        {"toast_style": "text-bg-danger", "message": msg_error},
+                    ),
+                },
+                status=400,
+            )
+
+        with transaction.atomic():
+            comment = Comment.objects.create(
+                post=post,
+                user=request.user,
+                description=description,
+                image=request.FILES.get("image"),
+                status="active",
+            )
+
+        return JsonResponse(
+            {
+                "status": "ok",
+                "comment_html": render_to_string(
+                    "facebook/components/post/comment_post.html",
+                    {"comment": comment},
+                    request=request,
+                ),
+                "success_html": render_to_string(
+                    "components/social/messages/message.html",
+                    {
+                        "toast_style": "text-bg-success",
+                        "message": "Commentario subido correctamente.",
+                    },
+                ),
+                "comments_count": post.comments.count(),
+            },
+            status=201,
         )

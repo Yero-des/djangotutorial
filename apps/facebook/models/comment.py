@@ -19,18 +19,13 @@ class PostQuerySet(models.QuerySet):
 class Comment(CommonContent):
 
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")
-    rating = models.PositiveIntegerField()
     objects = PostQuerySet.as_manager()
 
     def __str__(self):
         return f"{self.user} => {self.post}"
 
     class Meta:
-        constraints = [
-            models.UniqueConstraint(
-                fields=["post", "user"], name="unique_comment_by_user"
-            )
-        ]
+        ordering = ["-created_at"]
 
 
 class CommentLike(CommonLike):

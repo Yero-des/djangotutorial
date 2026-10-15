@@ -10,6 +10,11 @@ urlpatterns = [
     path("post/<int:pk>/delete", views.PostDeleteView.as_view(), name="delete-post"),
     path("post/<int:post_id>/liked", views.LikePostView.as_view(), name="like-post"),
     path(
+        "post/<int:post_id>/comment",
+        views.CommentCreateView.as_view(),
+        name="create-comment",
+    ),
+    path(
         "user/detail/<str:username>", views.UserDetailView.as_view(), name="detail-user"
     ),
     path("user/dark-mode/toggle", views.DarkModeView.as_view(), name="dark-mode"),
