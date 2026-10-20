@@ -4,6 +4,8 @@ from django.views.generic import ListView
 
 from ..models import Post
 
+# TODO: Implementar funcionalidad para paginar los segmentos que muestran posts
+
 
 class IndexListView(LoginRequiredMixin, ListView):
     model = Post
