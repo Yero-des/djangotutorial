@@ -124,6 +124,26 @@ class FollowViewTests(TestCase):
         self.assertContains(response, ">Dejar de seguir</a>")
 
 
+class PostLikeButtonTemplateTests(TestCase):
+
+    def test_post_card_and_modal_like_buttons_share_post_identity(self):
+        user = User.objects.create_user(username="lector")
+        post = Post.objects.create(
+            user=User.objects.create_user(username="autor"),
+            title="Publicación de prueba",
+            description="Contenido de prueba",
+            status="active",
+        )
+        self.client.force_login(user)
+
+        response = self.client.get(reverse("facebook:index"))
+
+        self.assertEqual(
+            response.content.count(f'data-post-id="{post.pk}"'.encode()), 2
+        )
+        self.assertEqual(response.content.count(b"btn-like-inner-post"), 2)
+
+
 class PostLikeModelTests(TestCase):
 
     def test_quantity_postlikes(self):

@@ -53,7 +53,7 @@
 <div class="container">
   <div class="row my-2 g-0 gap-2">
     <div class="col-auto">
-      <button id="btn-like-post-{{ post.id }}" data-url="{% url 'facebook:like-post' post.id %}" data-csrf="{{ csrf_token }}" onclick="event.stopPropagation(); likePost(this)" class="btn py-0 px-2 btn-like-inner-post {% if post.is_liked %}liked{% endif %}">
+      <button data-post-id="{{ post.id }}" data-url="{% url 'facebook:like-post' post.id %}" data-csrf="{{ csrf_token }}" onclick="event.stopPropagation(); likePost(this)" class="btn py-0 px-2 btn-like-inner-post {% if post.is_liked %}liked{% endif %}">
         <i class="bi bi-hand-thumbs-up"></i>
         <small>{{ post.likes_count }}</small>
       </button>

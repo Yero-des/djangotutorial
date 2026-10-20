@@ -35,38 +35,45 @@ document.querySelectorAll(".new-comment-form").forEach((form) => {
 });
 
 // Like dentro del post
-function likePost(element) {
-	const likesSpan = element.getElementsByTagName("small")[0];
-	const url = element.dataset.url;
-	const csrfToken = element.dataset.csrf;
+async function likePost(element) {
+	const postId = element.dataset.postId;
+	const buttons = [...document.querySelectorAll(".btn-like-inner-post")].filter(
+		(button) => button.dataset.postId === postId,
+	);
 
-	let numberLikes = Number(likesSpan.innerHTML);
+	buttons.forEach((button) => {
+		button.disabled = true;
+	});
 
-	fetch(url, {
-		method: "POST",
-		headers: {
-			"Content-Type": "application/json",
-			"X-CSRFToken": csrfToken,
-		},
-	})
-		.then((response) => {
-			if (!response) {
-				alert("Ha ocurrido un error temporal");
-			}
-			return response.json();
-		})
-		.then((data) => {
-			if (data.status == "ok") {
-				if (data.liked) {
-					numberLikes++;
-					element.classList.add("liked");
-				} else {
-					numberLikes--;
-					element.classList.remove("liked");
-				}
-				likesSpan.innerHTML = numberLikes;
-			}
+	try {
+		const response = await fetch(element.dataset.url, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+				"X-CSRFToken": element.dataset.csrf,
+			},
 		});
+		const data = await response.json();
+
+		if (!response.ok || data.status !== "ok") {
+			throw new Error("No se pudo actualizar el me gusta.");
+		}
+
+		const likesSpan = element.querySelector("small");
+		const numberLikes =
+			Number(likesSpan.textContent) + (data.liked ? 1 : -1);
+
+		buttons.forEach((button) => {
+			button.classList.toggle("liked", data.liked);
+			button.querySelector("small").textContent = numberLikes;
+		});
+	} catch {
+		alert("Ha ocurrido un error temporal");
+	} finally {
+		buttons.forEach((button) => {
+			button.disabled = false;
+		});
+	}
 }
 
 // Seguir o dejar de seguir al autor de una publicación
