@@ -36,7 +36,7 @@ document.querySelectorAll(".new-comment-form").forEach((form) => {
 
 // Like dentro del post
 function likePost(element) {
-	const likesSpan = element.getElementsByTagName("span")[0];
+	const likesSpan = element.getElementsByTagName("small")[0];
 	const url = element.dataset.url;
 	const csrfToken = element.dataset.csrf;
 
@@ -68,6 +68,37 @@ function likePost(element) {
 			}
 		});
 }
+
+// Seguir o dejar de seguir al autor de una publicación
+document.addEventListener("click", async (event) => {
+	const link = event.target.closest(".js-follow-toggle");
+
+	if (!link) return;
+
+	event.preventDefault();
+	event.stopPropagation();
+
+	try {
+		const response = await fetch(link.dataset.url, {
+			method: "POST",
+			headers: {
+				"X-CSRFToken": link.dataset.csrf,
+				"X-Requested-With": "XMLHttpRequest",
+			},
+		});
+		const data = await response.json();
+
+		if (!response.ok || data.status !== "ok") {
+			throw new Error("No se pudo actualizar el seguimiento.");
+		}
+
+		link.classList.toggle("text-danger", data.is_following);
+		link.classList.toggle("text-primary", !data.is_following);
+		link.textContent = data.is_following ? "Dejar de seguir" : "Seguir";
+	} catch {
+		alert("Ha ocurrido un error temporal");
+	}
+});
 
 // Cambiar tema
 const darkModeToggle = document.getElementById("dark-mode-toggle");

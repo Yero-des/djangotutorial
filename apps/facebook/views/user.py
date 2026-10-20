@@ -92,14 +92,25 @@ class FollowView(LoginRequiredMixin, View):
         # Si el seguimiento existe se elimina
         if follow.exists():
             follow.delete()
-
-            messages.warning(self.request, f'Se dejo de seguir a "{user_to_follow}"')
+            is_following = False
+            message = f'Se dejo de seguir a "{user_to_follow}"'
 
         else:
             Follow.objects.create(
                 following_user=request.user, followed_user=user_to_follow
             )
-            messages.success(self.request, f'Se comenzo a seguir a "{user_to_follow}"')
+            is_following = True
+            message = f'Se comenzo a seguir a "{user_to_follow}"'
+
+        if request.headers.get("X-Requested-With") == "XMLHttpRequest":
+            return JsonResponse(
+                {"status": "ok", "is_following": is_following}
+            )
+
+        if is_following:
+            messages.success(request, message)
+        else:
+            messages.warning(request, message)
 
         return redirect(request.META.get("HTTP_REFERER", "/"))
 

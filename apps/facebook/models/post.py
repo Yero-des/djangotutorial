@@ -4,6 +4,7 @@ from django.db.models import Count, Exists, OuterRef
 from django.templatetags.static import static
 
 from .common import CommonContent, CommonLike
+from .follow import Follow
 
 
 class PostQuerySet(models.QuerySet):
@@ -13,6 +14,11 @@ class PostQuerySet(models.QuerySet):
             self.annotate(
                 is_liked=Exists(
                     PostLike.objects.filter(liked_post=OuterRef("pk"), user_like=user)
+                ),
+                is_following=Exists(
+                    Follow.objects.filter(
+                        followed_user=OuterRef("user_id"), following_user=user
+                    )
                 ),
                 followers_count=Count("user__followers", distinct=True),
                 likes_count=Count("likes", distinct=True),

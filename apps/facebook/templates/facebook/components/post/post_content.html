@@ -1,0 +1,68 @@
+<div class="container mt-2">
+  <div class="row g-0 gap-3 align-items-center">
+    {% comment %}Información de autor de la publicación{% endcomment %}
+    <div class="col-auto">
+      {% if post.user.photo %}
+        <img src="{{ post.user.photo.url }}" alt="Foto de autor de publicación {{ post.user.username }}" class="comment-author-photo rounded-circle object-fit-cover" />
+      {% else %}
+        <span class="comment-author-photo rounded-circle d-flex align-items-center justify-content-center bg-body-secondary" aria-label="Usuario eliminado"><i class="bi bi-person"></i></span>
+      {% endif %}
+    </div>
+    <div class="col">
+      <p class="m-0">
+        <a href="{% url 'facebook:detail-user' username=post.user.username %}" class="text-decoration-none text-body">{{ post.user.username }}</a>
+        -{% if post.user %}
+          <a href="{% url 'facebook:detail-user' username=post.user.username %}"
+            data-url="{% url 'facebook:follow-user' user_id=post.user_id %}"
+            data-csrf="{{ csrf_token }}"
+            class="text-decoration-none js-follow-toggle {% if post.is_following %}
+              
+              
+              text-danger
+
+
+            {% else %}
+              
+              
+              text-primary
+
+
+            {% endif %}">
+            {% if post.is_following %}
+              Dejar de seguir
+            {% else %}
+              Seguir
+            {% endif %}
+          </a>
+        {% endif %}
+      </p>
+      <p class="m-0">
+        <small class="text-body-secondary"><time datetime="{{ post.created_at|date:'c' }}">{{ post.created_at|date:'d/m/Y H:i' }}</time></small>
+      </p>
+    </div>
+  </div>
+  <p class="my-2">{{ post.description }}</p>
+</div>
+
+{% if post.image %}
+  <div class="bg-body-secondary">
+    <img src="{{ post.image.url }}" alt="{{ post.title }}" class="img-fluid w-100 object-fit-contain rounded" style="height: 320px;" />
+  </div>
+{% endif %}
+
+<div class="container">
+  <div class="row my-2 g-0 gap-2">
+    <div class="col-auto">
+      <button id="btn-like-post-{{ post.id }}" data-url="{% url 'facebook:like-post' post.id %}" data-csrf="{{ csrf_token }}" onclick="event.stopPropagation(); likePost(this)" class="btn py-0 px-2 btn-like-inner-post {% if post.is_liked %}liked{% endif %}">
+        <i class="bi bi-hand-thumbs-up"></i>
+        <small>{{ post.likes_count }}</small>
+      </button>
+    </div>
+    <div class="col-auto">
+      <button class="btn py-0 px-2 border border-0" disabled>
+        <i class="bi bi-chat"></i>
+        <small data-comments-count>{{ post.comments_count }}</small>
+      </button>
+    </div>
+  </div>
+</div>

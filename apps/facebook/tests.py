@@ -70,6 +70,60 @@ class FollowModelTests(TestCase):
         self.assertEqual(users[0].quantity_followings, 3)
 
 
+class FollowViewTests(TestCase):
+
+    def setUp(self):
+        self.user = User.objects.create_user(username="seguidor")
+        self.author = User.objects.create_user(username="autor")
+        self.url = reverse("facebook:follow-user", args=[self.author.pk])
+        self.client.force_login(self.user)
+
+    def test_ajax_follow_toggles_following_state(self):
+        response = self.client.post(self.url, HTTP_X_REQUESTED_WITH="XMLHttpRequest")
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json(), {"status": "ok", "is_following": True})
+        self.assertTrue(
+            Follow.objects.filter(
+                followed_user=self.author, following_user=self.user
+            ).exists()
+        )
+
+        response = self.client.post(self.url, HTTP_X_REQUESTED_WITH="XMLHttpRequest")
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json(), {"status": "ok", "is_following": False})
+        self.assertFalse(
+            Follow.objects.filter(
+                followed_user=self.author, following_user=self.user
+            ).exists()
+        )
+
+    def test_post_follow_link_reflects_following_state(self):
+        Post.objects.create(
+            user=self.author,
+            title="Publicación de prueba",
+            description="Contenido de prueba",
+            status="active",
+        )
+        response = self.client.get(reverse("facebook:index"))
+
+        self.assertContains(
+            response,
+            'class="text-decoration-none js-follow-toggle text-primary"',
+        )
+        self.assertContains(response, ">Seguir</a>")
+
+        Follow.objects.create(followed_user=self.author, following_user=self.user)
+        response = self.client.get(reverse("facebook:index"))
+
+        self.assertContains(
+            response,
+            'class="text-decoration-none js-follow-toggle text-danger"',
+        )
+        self.assertContains(response, ">Dejar de seguir</a>")
+
+
 class PostLikeModelTests(TestCase):
 
     def test_quantity_postlikes(self):
