@@ -21,7 +21,7 @@
     {% include 'components/social/sidebar.html' with active=current_view %}
 
     <section class="overflow-y-auto w-100">
-      <div class="container mt-5">
+      <div class="container mt-3 mt-md-5 pb-5 pb-md-0">
         {% block app_content %}
 
         {% endblock %}
@@ -31,7 +31,7 @@
 {% endblock %}
 
 {% block messages %}
-  <div id="toastContainer" class="toast-container position-fixed bottom-0 end-0 p-3">
+  <div id="toastContainer" class="toast-container position-fixed bottom-0 end-0 p-3 mb-5 mb-md-0">
     {% if messages %}
       {% for message in messages %}
         {% with current_bg='text-bg-'|add:message.tags %}
