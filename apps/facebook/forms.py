@@ -17,6 +17,14 @@ BAD_WORDS = [
     "cagada",
 ]
 
+# Límites de imagen alineados con el promedio de las redes sociales
+# (Instagram: 8 MB, X/Twitter: 5 MB, WhatsApp: 16 MB).
+MAX_IMAGE_SIZE_MB = 5
+MAX_IMAGE_SIZE = MAX_IMAGE_SIZE_MB * 1024 * 1024
+# MPO es una variante de JPEG usada por algunas cámaras de móvil.
+ALLOWED_IMAGE_FORMATS = {"JPEG", "MPO", "PNG", "WEBP"}
+ALLOWED_IMAGE_TYPES = ("image/jpeg", "image/png", "image/webp")
+
 User = get_user_model()
 
 
@@ -43,8 +51,26 @@ class PostForm(BootstrapModelForm):
         model = Post
         fields = ["title", "description", "image"]
         widgets = {
-            "title": forms.TextInput(attrs={"class": "form-control"}),
-            "description": forms.Textarea(attrs={"class": "form-control", "rows": "5"}),
+            "title": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Dale un título a tu publicación",
+                }
+            ),
+            "description": forms.Textarea(
+                attrs={
+                    "class": "form-control",
+                    "rows": "5",
+                    "placeholder": "¿Qué estás pensando?",
+                }
+            ),
+            "image": forms.FileInput(
+                attrs={
+                    "class": "d-none",
+                    "accept": ",".join(ALLOWED_IMAGE_TYPES),
+                    "data-max-size": MAX_IMAGE_SIZE,
+                }
+            ),
         }
         error_messages = {
             "title": {
@@ -52,6 +78,12 @@ class PostForm(BootstrapModelForm):
                 "max_length": "El titulo es demasiado largo.",
             },
             "description": {"required": "El campo es requerido."},
+        }
+        help_texts = {
+            "image": (
+                "Formatos JPG, PNG o WebP. "
+                f"Tamaño máximo: {MAX_IMAGE_SIZE_MB} MB."
+            ),
         }
 
     def as_p(self):
@@ -80,6 +112,30 @@ class PostForm(BootstrapModelForm):
                 raise forms.ValidationError("Trata de ser respetuoso.")
 
         return description
+
+    def clean_image(self):
+        image = self.cleaned_data.get("image")
+
+        if not image:
+            return image
+
+        # En edición, si no se sube una imagen nueva, el valor es el archivo
+        # que ya estaba guardado en la publicación.
+        if not hasattr(image, "content_type"):
+            return image
+
+        image_format = getattr(getattr(image, "image", None), "format", "")
+        if image_format and image_format.upper() not in ALLOWED_IMAGE_FORMATS:
+            raise forms.ValidationError(
+                "Formato no permitido. Usa una imagen JPG, PNG o WebP."
+            )
+
+        if image.size > MAX_IMAGE_SIZE:
+            raise forms.ValidationError(
+                f"La imagen no puede superar los {MAX_IMAGE_SIZE_MB} MB."
+            )
+
+        return image
 
 
 class UserForm(BootstrapModelForm):

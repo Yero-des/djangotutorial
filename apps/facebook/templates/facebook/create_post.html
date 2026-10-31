@@ -1,4 +1,5 @@
 {% extends 'layouts/social.html' %}
+{% load static %}
 
 {% block title %}
   {% if current_view == 'edit-post' %}
@@ -8,6 +9,10 @@
   {% endif %}
 {% endblock %}
 
+{% block app_styles %}
+  <link rel="stylesheet" href="{% static 'facebook/css/create_post.css' %}" />
+{% endblock %}
+
 {% block app_content %}
   {% if current_view == 'edit-post' %}
     {% include 'facebook/components/toggle_title.html' with title='Editar publicación' user=request.user %}
@@ -15,55 +20,97 @@
     {% include 'facebook/components/toggle_title.html' with title='Crear publicación' user=request.user %}
   {% endif %}
 
-  {% comment %}Actualizar la vista para crear / editar{% endcomment %}
-  <div class="row">
-    <div class="col col-md-6">
-      <form method="post" enctype="multipart/form-data">
+  <div class="row justify-content-center">
+    <div class="col-12 col-lg-10 col-xl-8">
+      <form method="post" enctype="multipart/form-data" class="card border-0">
         {% csrf_token %}
 
-        {% for field in form %}
-          <div class="mb-3">
-            {{ field.label_tag }}
-            {{ field }}
-            {% if field.errors %}
-              <ul class="invalid-feedback invalid-feedback-custom">
-                {% for error in field.errors %}
+        <div class="card-body p-3 p-md-4">
+          {% if form.non_field_errors %}
+            <div class="alert alert-danger" role="alert">
+              {% for error in form.non_field_errors %}
+                <p class="mb-0">{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
+
+          <div class="row g-4">
+            {% comment %}Columna de imagen interactiva{% endcomment %}
+            <div class="col-12 col-md-5">
+              <label class="form-label" for="{{ form.image.id_for_label }}">{{ form.image.label }}</label>
+
+              <div class="position-relative">
+                <button type="button" id="post-image-picker" class="w-100 rounded-3 overflow-hidden position-relative p-0 {% if form.image.errors %}border-danger{% endif %} {% if form.instance.image %}has-image{% endif %}" aria-label="Seleccionar imagen de la publicación">
+                  <img id="post-image-preview" src="{% if form.instance.image %}{{ form.instance.image.url }}{% endif %}" alt="Vista previa de la imagen de la publicación" class="{% if not form.instance.image %}d-none{% endif %}" />
+
+                  <span id="post-image-placeholder" class="d-flex flex-column justify-content-center align-items-center gap-2 p-4 {% if form.instance.image %}d-none{% endif %}">
+                    <i class="bi bi-image fs-1" aria-hidden="true"></i>
+                    <span class="fw-semibold">Haz clic para subir una imagen</span>
+                    <small class="text-body-secondary text-center">También puedes arrastrarla aquí</small>
+                  </span>
+
+                  <span class="post-image-overlay position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center align-items-center gap-2 bg-dark bg-opacity-50 text-white">
+                    <i class="bi bi-camera fs-2" aria-hidden="true"></i>
+                    <span class="fw-semibold">Cambiar imagen</span>
+                  </span>
+                </button>
+
+                {{ form.image }}
+              </div>
+
+              <div class="form-text">{{ form.image.help_text }}</div>
+
+              <ul id="post-image-errors"
+                class="invalid-feedback invalid-feedback-custom {% if form.image.errors %}
+                  d-block
+                {% else %}
+                  d-none
+                {% endif %}">
+                {% for error in form.image.errors %}
                   <li>{{ error }}</li>
                 {% endfor %}
               </ul>
-            {% endif %}
+            </div>
+
+            {% comment %}Columna de datos de la publicación{% endcomment %}
+            <div class="col-12 col-md-7">
+              {% for field in form %}
+                {% if field.name != 'image' %}
+                  <div class="mb-3">
+                    {{ field.label_tag }}
+                    {{ field }}
+
+                    {% if field.errors %}
+                      <ul class="invalid-feedback invalid-feedback-custom d-block">
+                        {% for error in field.errors %}
+                          <li>{{ error }}</li>
+                        {% endfor %}
+                      </ul>
+                    {% endif %}
+                  </div>
+                {% endif %}
+              {% endfor %}
+
+              <button class="btn w-100 {% if current_view == 'edit-post' %}
+                  btn-warning
+                {% else %}
+                  btn-success
+                {% endif %}"
+                type="submit">
+                {% if current_view == 'edit-post' %}
+                  Guardar cambios
+                {% else %}
+                  Crear publicación
+                {% endif %}
+              </button>
+            </div>
           </div>
-        {% endfor %}
-
-        <button class="btn {% if current_view == 'edit-post' %}
-            
-            
-            
-            
-             btn-warning
-
-
-
-
-          {% else %}
-            
-            
-            
-            
-            btn-success
-
-
-
-
-          {% endif %}"
-          type="submit">
-          {% if current_view == 'edit-post' %}
-            Guardar cambios
-          {% else %}
-            Crear publicación
-          {% endif %}
-        </button>
+        </div>
       </form>
     </div>
   </div>
+{% endblock %}
+
+{% block app_scripts %}
+  <script src="{% static 'facebook/js/create_post.js' %}"></script>
 {% endblock %}
