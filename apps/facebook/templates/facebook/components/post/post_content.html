@@ -12,22 +12,7 @@
       <p class="m-0">
         <a href="{% url 'facebook:detail-user' username=post.user.username %}" class="text-decoration-none text-body">{{ post.user.username }}</a>
         -{% if post.user %}
-          <a href="{% url 'facebook:detail-user' username=post.user.username %}"
-            data-url="{% url 'facebook:follow-user' user_id=post.user_id %}"
-            data-csrf="{{ csrf_token }}"
-            class="text-decoration-none js-follow-toggle {% if post.is_following %}
-              
-              
-              text-danger
-
-
-            {% else %}
-              
-              
-              text-primary
-
-
-            {% endif %}">
+          <a href="{% url 'facebook:detail-user' username=post.user.username %}" data-url="{% url 'facebook:follow-user' user_id=post.user_id %}" data-user-id="{{ post.user_id }}" data-csrf="{{ csrf_token }}" class="text-decoration-none js-follow-toggle {{ post.is_following|yesno:'text-danger,text-primary' }}">
             {% if post.is_following %}
               Dejar de seguir
             {% else %}

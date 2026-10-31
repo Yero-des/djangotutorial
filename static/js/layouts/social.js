@@ -85,6 +85,25 @@ document.addEventListener("click", async (event) => {
 	event.preventDefault();
 	event.stopPropagation();
 
+	if (link.dataset.busy === "true") return;
+
+	const userId = link.dataset.userId;
+	const followLinks = userId
+		? [...document.querySelectorAll(".js-follow-toggle")].filter(
+				(element) => element.dataset.userId === userId,
+			)
+		: [link];
+	const followersBadges = userId
+		? [...document.querySelectorAll("[data-followers-user-id]")].filter(
+				(badge) => badge.dataset.followersUserId === userId,
+			)
+		: [];
+
+	followLinks.forEach((element) => {
+		element.dataset.busy = "true";
+		element.setAttribute("aria-disabled", "true");
+	});
+
 	try {
 		const response = await fetch(link.dataset.url, {
 			method: "POST",
@@ -99,11 +118,28 @@ document.addEventListener("click", async (event) => {
 			throw new Error("No se pudo actualizar el seguimiento.");
 		}
 
-		link.classList.toggle("text-danger", data.is_following);
-		link.classList.toggle("text-primary", !data.is_following);
-		link.textContent = data.is_following ? "Dejar de seguir" : "Seguir";
+		followLinks.forEach((element) => {
+			element.classList.toggle("text-danger", data.is_following);
+			element.classList.toggle("text-primary", !data.is_following);
+			element.textContent = data.is_following
+				? "Dejar de seguir"
+				: "Seguir";
+		});
+
+		followersBadges.forEach((badge) => {
+			const counter = badge.querySelector("[data-followers-count]");
+
+			if (counter) {
+				counter.textContent = data.followers_count;
+			}
+		});
 	} catch {
 		alert("Ha ocurrido un error temporal");
+	} finally {
+		followLinks.forEach((element) => {
+			delete element.dataset.busy;
+			element.removeAttribute("aria-disabled");
+		});
 	}
 });
 

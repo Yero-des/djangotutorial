@@ -104,7 +104,11 @@ class FollowView(LoginRequiredMixin, View):
 
         if request.headers.get("X-Requested-With") == "XMLHttpRequest":
             return JsonResponse(
-                {"status": "ok", "is_following": is_following}
+                {
+                    "status": "ok",
+                    "is_following": is_following,
+                    "followers_count": user_to_follow.followers.count(),
+                }
             )
 
         if is_following:

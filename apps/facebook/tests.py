@@ -82,7 +82,9 @@ class FollowViewTests(TestCase):
         response = self.client.post(self.url, HTTP_X_REQUESTED_WITH="XMLHttpRequest")
 
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json(), {"status": "ok", "is_following": True})
+        self.assertEqual(response.json()["status"], "ok")
+        self.assertTrue(response.json()["is_following"])
+        self.assertEqual(response.json()["followers_count"], 1)
         self.assertTrue(
             Follow.objects.filter(
                 followed_user=self.author, following_user=self.user
@@ -92,12 +94,30 @@ class FollowViewTests(TestCase):
         response = self.client.post(self.url, HTTP_X_REQUESTED_WITH="XMLHttpRequest")
 
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json(), {"status": "ok", "is_following": False})
+        self.assertEqual(response.json()["status"], "ok")
+        self.assertFalse(response.json()["is_following"])
+        self.assertEqual(response.json()["followers_count"], 0)
         self.assertFalse(
             Follow.objects.filter(
                 followed_user=self.author, following_user=self.user
             ).exists()
         )
+
+    def test_post_follow_controls_expose_author_id_for_global_updates(self):
+        Post.objects.create(
+            user=self.author,
+            title="Publicación de prueba",
+            description="Contenido de prueba",
+            status="active",
+        )
+
+        response = self.client.get(reverse("facebook:index"))
+
+        self.assertContains(response, f'data-user-id="{self.author.pk}"')
+        self.assertContains(
+            response, f'data-followers-user-id="{self.author.pk}"'
+        )
+        self.assertContains(response, "data-followers-count>0</span>")
 
     def test_post_follow_link_reflects_following_state(self):
         Post.objects.create(

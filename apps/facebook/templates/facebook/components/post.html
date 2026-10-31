@@ -8,8 +8,8 @@
           {% if not is_user_detail %}
             <a href="{% url 'facebook:detail-user' username=post.user.username %}" onclick="event.stopPropagation()" class="img-post-profile position-absolute bottom-0 start-0 d-flex align-items-center justify-content-center p-3 text-decoration-none" title="{{ post.user.username }}">
               <div class="position-relative">
-                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                  <i class="bi bi-person"></i> {{ post.followers_count }}
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" data-followers-user-id="{{ post.user_id }}">
+                  <i class="bi bi-person"></i> <span data-followers-count>{{ post.followers_count }}</span>
                   <span class="visually-hidden">Seguidores</span>
                 </span>
 
