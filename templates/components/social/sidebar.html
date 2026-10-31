@@ -1,14 +1,14 @@
 {% load static %}
-{% comment %}TODO: Implementar sidebar responsive{% endcomment %}
 
-<div class="d-flex flex-column flex-shrink-0 bg-dark border-end border-dark-subtle" style="width: 4.5rem">
+{# Sidebar vertical: visible desde el breakpoint md en adelante #}
+<div class="d-none d-md-flex flex-column flex-shrink-0 bg-dark border-end border-dark-subtle" style="width: 4.5rem">
   <a href="{% url 'facebook:index' %}" class="d-flex p-3 link-body-emphasis text-decoration-none justify-content-center" title="Facebook" data-bs-toggle="tooltip" data-bs-placement="right">
     <i class="bi bi-facebook fs-3 text-light" aria-hidden="true"></i>
     <span class="visually-hidden">Facebook</span>
   </a>
   <ul class="nav nav-pills nav-flush flex-column mb-auto text-center">
     <li class="nav-item">
-      <a href="{% url 'facebook:index' %}" class="nav-link {% if active == 'index' %}active{% endif %} py-3 border-bottom border-secondary rounded-0" aria-current="page" title="Principal" data-bs-toggle="tooltip" data-bs-placement="right"><i class="bi bi-house" width="24" height="24" role="img" aria-label="Principal"></i></a>
+      <a href="{% url 'facebook:index' %}" class="nav-link {% if active == 'index' %}active{% endif %} py-3 border-bottom border-secondary rounded-0" {% if active == 'index' %}aria-current="page"{% endif %} title="Principal" data-bs-toggle="tooltip" data-bs-placement="right"><i class="bi bi-house" width="24" height="24" role="img" aria-label="Principal"></i></a>
     </li>
     <li>
       <a href="{% url 'facebook:create-post' %}" class="nav-link {% if active == 'create-post' %}active{% endif %} py-3 border-bottom border-secondary rounded-0" title="Crear Publicación" data-bs-toggle="tooltip" data-bs-placement="right"><i class="bi bi-window-plus" width="24" height="24" role="img" aria-label="Crear Publicación"></i></a>
@@ -20,10 +20,10 @@
   <div class="dropdown border-top border-secondary">
     <a href="#" class="d-flex align-items-center justify-content-center p-3 link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
       {% if request.user.photo %}
-        <img src="{{ request.user.photo.url }}" alt="mdo" class="rounded-circle object-fit-cover img-user-sidebar" />
+        <img src="{{ request.user.photo.url }}" alt="Foto de perfil" class="rounded-circle object-fit-cover img-user-sidebar" />
       {% else %}
         <div class="bg-body-secondary d-flex justify-content-center align-items-center rounded-circle img-user-sidebar">
-          <i class="bi bi-person"></i>
+          <i class="bi bi-person" aria-hidden="true"></i>
         </div>
       {% endif %}
     </a>
@@ -37,9 +37,55 @@
       <li>
         <form action="{% url 'profiles:logout' %}" method="post">
           {% csrf_token %}
-          <button type="submit" class="dropdown-item" href="#">Cerrar sesión</button>
+          <button type="submit" class="dropdown-item">Cerrar sesión</button>
         </form>
       </li>
     </ul>
   </div>
 </div>
+
+{# Barra de navegación inferior: visible solo por debajo del breakpoint md #}
+<nav class="d-md-none fixed-bottom bg-dark border-top border-dark-subtle" aria-label="Navegación principal">
+  <ul class="nav nav-pills nav-fill flex-nowrap text-center">
+    <li class="nav-item">
+      <a href="{% url 'facebook:index' %}" class="nav-link {% if active == 'index' %}active{% endif %} rounded-0 py-2" {% if active == 'index' %}aria-current="page"{% endif %} aria-label="Principal" title="Principal">
+        <i class="bi bi-house fs-5" role="img" aria-hidden="true"></i>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="{% url 'facebook:create-post' %}" class="nav-link {% if active == 'create-post' %}active{% endif %} rounded-0 py-2" aria-label="Crear Publicación" title="Crear Publicación">
+        <i class="bi bi-window-plus fs-5" role="img" aria-hidden="true"></i>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="{% url 'facebook:list-users' %}" class="nav-link {% if active == 'users' %}active{% endif %} rounded-0 py-2" aria-label="Usuarios" title="Usuarios">
+        <i class="bi bi-person-circle fs-5" role="img" aria-hidden="true"></i>
+      </a>
+    </li>
+    <li class="nav-item dropup">
+      <a href="#" class="nav-link rounded-0 py-2 d-flex justify-content-center align-items-center" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Menú de usuario" title="Mi cuenta">
+        {% if request.user.photo %}
+          <img src="{{ request.user.photo.url }}" alt="Foto de perfil" class="rounded-circle object-fit-cover img-user-sidebar" />
+        {% else %}
+          <span class="bg-body-secondary d-flex justify-content-center align-items-center rounded-circle img-user-sidebar">
+            <i class="bi bi-person" aria-hidden="true"></i>
+          </span>
+        {% endif %}
+      </a>
+      <ul class="dropdown-menu dropdown-menu-end text-small shadow bg-dark-subtle">
+        <li>
+          <a class="dropdown-item" href="{% url 'facebook:profile' username=request.user.username %}">Perfil</a>
+        </li>
+        <li>
+          <hr class="dropdown-divider" />
+        </li>
+        <li>
+          <form action="{% url 'profiles:logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="dropdown-item">Cerrar sesión</button>
+          </form>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
