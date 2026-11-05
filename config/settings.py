@@ -30,7 +30,12 @@ SECRET_KEY = "django-insecure-rs#d_8cd%nh&)@*^j%(&ee1-14vm8ibuc!3vedy3ks!syu+8c7
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# Hosts locales y túneles temporales de desarrollo (Cloudflare quick tunnel).
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "[::1]", ".trycloudflare.com"]
+
+# Permite enviar formularios (login, posts, etc.) cuando se comparte el
+# servidor mediante un túnel HTTPS de Cloudflare.
+CSRF_TRUSTED_ORIGINS = ["https://*.trycloudflare.com"]
 
 INTERNAL_IPS = [
     "127.0.0.1",
@@ -77,6 +82,13 @@ if not TESTING:
         "debug_toolbar.middleware.DebugToolbarMiddleware",
         *MIDDLEWARE,
     ]
+
+# No mostrar la barra de depuración a quienes acceden por el túnel compartido.
+DEBUG_TOOLBAR_CONFIG = {
+    "SHOW_TOOLBAR_CALLBACK": lambda request: not request.get_host().endswith(
+        ".trycloudflare.com"
+    ),
+}
 
 
 ROOT_URLCONF = "config.urls"
